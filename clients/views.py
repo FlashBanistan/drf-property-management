@@ -1,5 +1,8 @@
 from .models import Client
-from .serializers import ClientSerializer
+from .serializers import (
+    ClientSerializer,
+    # ClientCreateSerializer,
+)
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -35,3 +38,18 @@ class ClientViewSet(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+
+    def partial_update(self, request, pk=None):
+        queryset = Client.objects.all()
+        client = queryset.get(pk=pk)
+        serializer = ClientSerializer(client, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+    def destroy(self, request, pk=None):
+        queryset = Client.objects.all()
+        client = get_object_or_404(queryset, pk=pk)
+        client.delete()
+        return Response(status=201)

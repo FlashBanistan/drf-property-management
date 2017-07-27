@@ -5,8 +5,9 @@ from rest_framework.serializers import (
 )
 from .models import Client
 
+
 class ClientSerializer(ModelSerializer):
-    confirm_domain_url = CharField(write_only=True)
+    confirm_domain_url = CharField(write_only=True, required=False)
     class Meta:
         model = Client
         fields = [
@@ -21,7 +22,7 @@ class ClientSerializer(ModelSerializer):
 
     def validate(self, data):
         # Check that domain urls match:
-        if data['domain_url'] != data['confirm_domain_url']:
+        if self.instance is None and data['domain_url'] != data['confirm_domain_url']:
             raise ValidationError('Domain urls do not match.')
         return data
 
@@ -32,5 +33,4 @@ class ClientSerializer(ModelSerializer):
             domain_url = validated_data['domain_url'],
         )
         client.save()
-
         return client
