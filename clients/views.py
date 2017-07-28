@@ -1,7 +1,6 @@
 from .models import Client
 from .serializers import (
     ClientSerializer,
-    # ClientCreateSerializer,
 )
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
