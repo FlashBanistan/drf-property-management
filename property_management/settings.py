@@ -32,6 +32,21 @@ AUTH_USER_MODEL = 'authentication.User'
 TENANT_MODEL = 'clients.Client'
 DEFAULT_FILE_STORAGE = 'tenant_schemas.storage.TenantFileSystemStorage'
 
+INSTALLED_APPS = [
+    'tenant_schemas', # Mandatory, should always be before any django app.
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'clients',
+    'rest_framework',
+    'authentication',
+    'properties',
+    # 'profiles',
+]
+
 SHARED_APPS = [
     'tenant_schemas', # Mandatory
     'clients', # You must list the app where your client/tenant model resides.
@@ -53,20 +68,7 @@ TENANT_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication',
-    # 'profiles',
-]
-
-INSTALLED_APPS = [
-    'tenant_schemas', # Mandatory, should always be before any django app.
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'clients',
-    'rest_framework',
-    'authentication',
+    'properties',
     # 'profiles',
 ]
 
