@@ -23,7 +23,7 @@ class ClientSerializer(ModelSerializer):
         ]
 
     def validate(self, data):
-        # Check if domain_url is included and that domain urls match:
+        # Check if domain_url is included and that domain urls do not match:
         if data.get('domain_url') is not None and data['domain_url'] != data['confirm_domain_url']:
             raise ValidationError('Domain urls do not match.')
         return data
