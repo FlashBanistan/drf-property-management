@@ -17,9 +17,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework import routers
 from clients.views import ClientViewSet
+from properties.views import BuildingViewSet, UnitViewSet
 
 router = routers.SimpleRouter()
 router.register(r'clients', ClientViewSet, base_name='clients')
+router.register(r'buildings', BuildingViewSet, base_name='buildings')
+router.register(r'units', UnitViewSet, base_name='units')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

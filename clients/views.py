@@ -1,11 +1,11 @@
-from .models import Client
-from .serializers import (
-    ClientSerializer,
-)
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from .models import Client
+from .serializers import (
+    ClientSerializer,
+)
 
 User = get_user_model()
 
@@ -31,7 +31,7 @@ class ClientViewSet(viewsets.ViewSet):
 
     def update(self, request, pk=None):
         queryset = Client.objects.all()
-        client = queryset.get(pk=pk)
+        client = get_object_or_404(queryset, pk=pk)
         serializer = ClientSerializer(client, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
