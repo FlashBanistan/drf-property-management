@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'authentication',
     'properties',
     'tenants',
+    'rest_framework_swagger',
     # 'profiles',
 ]
 

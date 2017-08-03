@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework_swagger.views import get_swagger_view
 from rest_framework import routers
 from clients.views import ClientViewSet
 from properties.views import BuildingViewSet, UnitViewSet
 from tenants.views import TenantViewSet
+
+schema_view = get_swagger_view(title='Property Management API')
 
 router = routers.SimpleRouter()
 router.register(r'clients', ClientViewSet, base_name='clients')
@@ -27,6 +30,7 @@ router.register(r'units', UnitViewSet, base_name='units')
 router.register(r'tenants', TenantViewSet, base_name='tenants')
 
 urlpatterns = [
+    url(r'^$', schema_view),
     url(r'^admin/', admin.site.urls),
     url(r'^api/auth/', include('authentication.urls', namespace='auth-api') ),
     url(r'^api/', include(router.urls, namespace='api') ),
