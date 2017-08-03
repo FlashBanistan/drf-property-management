@@ -13,10 +13,6 @@ class Unit(models.Model):
     sq_ft = models.IntegerField()
     bedrooms = models.IntegerField()
     baths = models.FloatField()
-    # Unit permissions:
-    # allow_dogs = models.BooleanField(default=False)
-    # allow_cats = models.BooleanField(default=False)
-    # allow_smoking = models.BooleanField(default=False)
     # Relationships:
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     building = models.ForeignKey(Building, null=True, on_delete=models.SET_NULL)

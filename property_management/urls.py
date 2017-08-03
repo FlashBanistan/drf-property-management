@@ -18,11 +18,13 @@ from django.contrib import admin
 from rest_framework import routers
 from clients.views import ClientViewSet
 from properties.views import BuildingViewSet, UnitViewSet
+from tenants.views import TenantViewSet
 
 router = routers.SimpleRouter()
 router.register(r'clients', ClientViewSet, base_name='clients')
 router.register(r'buildings', BuildingViewSet, base_name='buildings')
 router.register(r'units', UnitViewSet, base_name='units')
+router.register(r'tenants', TenantViewSet, base_name='tenants')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

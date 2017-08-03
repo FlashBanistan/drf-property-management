@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     'clients',
     'rest_framework',
     'authentication',
     'properties',
+    'tenants',
     # 'profiles',
 ]
 
@@ -69,6 +71,7 @@ TENANT_APPS = [
     'django.contrib.staticfiles',
     'authentication',
     'properties',
+    'tenants',
     # 'profiles',
 ]
 
@@ -175,5 +178,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         # 'rest_framework.permissions.IsAuthenticated',
         #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
     )
 }
