@@ -1,0 +1,16 @@
+[
+    {
+        "model": "properties.property",
+        "pk": 1,
+        "fields": {
+            "name": "Jordan Station Apartments",
+            "phone": "8013453234",
+            "address": "10464 S. Jordan Gateway",
+            "city": "South Jordan",
+            "state": "Utah",
+            "zip_code": "84095",
+            "client": 2,
+            "created_on": "2017-08-09"
+        }
+    }
+]

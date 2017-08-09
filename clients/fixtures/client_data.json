@@ -1,0 +1,36 @@
+[
+    {
+        "model": "clients.client",
+        "pk": 1,
+        "fields": {
+            "domain_url": "localhost",
+            "schema_name": "public",
+            "name": "public",
+            "owner": "Aaron Chesley",
+            "email": "FlashBanistan66@gmail.com",
+            "phone": "8018609605",
+            "address": "10464 S. Jordan Gateway #235",
+            "city": "South Jordan",
+            "state": "Utah",
+            "zip_code": "84095",
+            "created_on": "2017-08-09"
+        }
+    },
+    {
+        "model": "clients.client",
+        "pk": 2,
+        "fields": {
+            "domain_url": "gmc.localhost",
+            "schema_name": "gmc_schema",
+            "name": "GMC Properties",
+            "owner": "Aaron Chesley",
+            "email": "FlashBanistan66@gmail.com",
+            "phone": "9043389527",
+            "address": "7500 Powers Ave",
+            "city": "Jackson",
+            "state": "Florida",
+            "zip_code": "32207",
+            "created_on": "2017-08-09"
+        }
+    }
+]

@@ -1,6 +1,8 @@
 from django.contrib import admin
-from properties.models.unit import Unit
-from properties.models.building import Building
+from properties.models import Unit
+from properties.models import Building
+from properties.models import Property
 
 admin.site.register(Unit)
 admin.site.register(Building)
+admin.site.register(Property)

@@ -1,0 +1,2 @@
+Dump data from schema:
+    dumpdata --schema="schema-name" app_name.model_name --indent 4

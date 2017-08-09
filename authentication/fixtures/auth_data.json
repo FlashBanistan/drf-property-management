@@ -1,0 +1,13 @@
+[
+    {
+        "model": "authentication.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$cxTeE90N55Kr$NmEZ6rpfejDWs16sk2SbyucgNow4rVNWaoaKIM4jIns=",
+            "last_login": "2017-08-09T00:33:38.661Z",
+            "email": "FlashBanistan66@gmail.com",
+            "is_active": true,
+            "is_admin": true
+        }
+    }
+]

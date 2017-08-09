@@ -26,7 +26,6 @@ SECRET_KEY = 'nf0t!g3v=42bh+1^fcf20x#il@-f3)ue1(jsqhvvsv$i0dhf3_'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 AUTH_USER_MODEL = 'authentication.User'
 TENANT_MODEL = 'clients.Client'
