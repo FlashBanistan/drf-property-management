@@ -15,7 +15,7 @@ class Unit(models.Model):
     bedrooms = models.IntegerField()
     baths = models.FloatField()
     # Relationships:
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    # client = models.ForeignKey(Client, on_delete=models.CASCADE)
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     building = models.ForeignKey(Building, null=True, on_delete=models.SET_NULL)
 

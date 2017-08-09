@@ -9,5 +9,5 @@ class Command(BaseCommand):
     #     parser.add_argument('poll_id', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        management.call_command('loaddata', 'authentication/fixtures/auth_data.json', verbosity=0)
-        # self.stdout.write("Unterminated line", ending='')
+        management.call_command('loaddata', 'clients/fixtures/client_data.json')
+        management.call_command('loaddata', 'authentication/fixtures/auth_data.json')

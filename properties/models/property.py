@@ -11,7 +11,7 @@ class Property(models.Model):
     state = models.CharField(max_length=100, null=False, blank=False)
     zip_code = models.CharField(max_length=10,null=False, blank=False)
     # Relationships:
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    # client = models.ForeignKey(Client, on_delete=models.CASCADE)
     # Other details:
     created_on = models.DateField(auto_now_add=True)
 
