@@ -1,0 +1,12 @@
+STEPS TO RECREATE DATABASE
+dropdb --username=postgres --password property_management
+createdb --username=postgres --password property_management
+python manage.py migrate_schemas
+OPEN SHELL w/ 'python manage.py shell'
+from clients.models import Client
+client = Client(domain_url='localhost', schema_name='public', name='public')
+client.save()
+
+STEPS TO START PGADMIN4
+activate the virtual environment located in Documents.
+navigate to the package and run "python pgAdmin4.py"
