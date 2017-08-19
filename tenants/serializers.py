@@ -1,4 +1,8 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import (
+    ModelSerializer,
+    ChoiceField,
+    SerializerMethodField
+)
 from .models import Tenant
 
 class TenantSerializer(ModelSerializer):

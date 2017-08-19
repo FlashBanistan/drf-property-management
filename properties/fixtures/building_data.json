@@ -2,16 +2,14 @@
     {    
         "model": "properties.building",    "pk": 1,
         "fields": {
-            "name": "Building 1",
-            "property": 1
+            "name": "Building 1"
         }
     },
     {
         "model": "properties.building",
         "pk": 2,
         "fields": {
-            "name": "Building 2",
-            "property": 1
+            "name": "Building 2"
         }
     }
 ]

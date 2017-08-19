@@ -1,5 +1,4 @@
 from django.db import models
-from clients.models import Client
 from property_management.validators.phone_number import validate_phone_number
 
 class Property(models.Model):
@@ -11,7 +10,7 @@ class Property(models.Model):
     state = models.CharField(max_length=100, null=False, blank=False)
     zip_code = models.CharField(max_length=10,null=False, blank=False)
     # Relationships:
-    # client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    
     # Other details:
     created_on = models.DateField(auto_now_add=True)
 
