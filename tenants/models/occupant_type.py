@@ -6,7 +6,7 @@ instances without screwing up the odering.
 """
 class OccupantType(models.Model):
     name = models.CharField(max_length=100)
-    occupant_type_id = models.IntegerField(primary_key=True)
+    occupant_type_id = models.IntegerField(unique=True)
 
     def __str__(self):
         return str(self.occupant_type_id) + ' - ' + self.name

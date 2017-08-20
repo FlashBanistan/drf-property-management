@@ -1,6 +1,7 @@
 [
     {    
-        "model": "properties.building",    "pk": 1,
+        "model": "properties.building",
+        "pk": 1,
         "fields": {
             "name": "Building 1"
         }

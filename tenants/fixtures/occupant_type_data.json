@@ -1,0 +1,18 @@
+[
+    {
+      "model": "tenants.occupant_type",
+      "pk": 1,
+      "fields": {
+        "name": "Primary",
+        "occupant_type_id": 1
+      }
+    },
+    {
+      "model": "tenants.occupant_type",
+      "pk": 2,
+      "fields": {
+        "name": "Occupant",
+        "occupant_type_id": 2
+      }
+    }
+  ]
