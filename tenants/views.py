@@ -1,8 +1,12 @@
 from rest_framework import viewsets
-from .serializers import TenantSerializer
-from .models import Tenant
+from .serializers import TenantSerializer, OccupantTypeSerializer
+from .models import Tenant, OccupantType
 
 
+class OccupantTypeViewSet(viewsets.ModelViewSet):
+    queryset = OccupantType.objects.all()
+    serializer_class = OccupantTypeSerializer
+    
 class TenantViewSet(viewsets.ModelViewSet):
     queryset = Tenant.objects.all()
     serializer_class = TenantSerializer

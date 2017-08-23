@@ -18,20 +18,22 @@ from django.contrib import admin
 from rest_framework_swagger.views import get_swagger_view
 from rest_framework import routers
 from clients.views import ClientViewSet
-from properties.views import BuildingViewSet, UnitViewSet
-from tenants.views import TenantViewSet
+from properties.views import PropertyViewSet, BuildingViewSet, UnitViewSet
+from tenants.views import TenantViewSet, OccupantTypeViewSet
 
 schema_view = get_swagger_view(title='Property Management API')
 
 router = routers.SimpleRouter()
-router.register(r'clients', ClientViewSet, base_name='clients')
-router.register(r'buildings', BuildingViewSet, base_name='buildings')
-router.register(r'units', UnitViewSet, base_name='units')
-router.register(r'tenants', TenantViewSet, base_name='tenants')
+router.register(r'clients', ClientViewSet)
+router.register(r'properties', PropertyViewSet)
+router.register(r'buildings', BuildingViewSet)
+router.register(r'units', UnitViewSet)
+router.register(r'tenants', TenantViewSet)
+router.register(r'occupant_type', OccupantTypeViewSet)
 
 urlpatterns = [
     url(r'^$', schema_view),
     url(r'^admin/', admin.site.urls),
     url(r'^api/auth/', include('authentication.urls', namespace='auth-api') ),
-    url(r'^api/', include(router.urls, namespace='api') ),
+    url(r'^api/', include(router.urls) ),
 ]

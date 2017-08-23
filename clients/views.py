@@ -7,46 +7,6 @@ from .serializers import (
 )
 
 
-class ClientViewSet(viewsets.ViewSet):
-
-    def list(self, request):
-        queryset = Client.objects.all()
-        serializer = ClientSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, pk=None):
-        queryset = Client.objects.all()
-        client = get_object_or_404(queryset, pk=pk)
-        serializer = ClientSerializer(client)
-        return Response(serializer.data)
-
-    def create(self, request):
-        serializer = ClientSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
-
-    def update(self, request, pk=None):
-        queryset = Client.objects.all()
-        client = get_object_or_404(queryset, pk=pk)
-        serializer = ClientSerializer(client, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
-
-    def partial_update(self, request, pk=None):
-        queryset = Client.objects.all()
-        client = queryset.get(pk=pk)
-        serializer = ClientSerializer(client, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
-
-    def destroy(self, request, pk=None):
-        queryset = Client.objects.all()
-        client = get_object_or_404(queryset, pk=pk)
-        client.delete()
-        return Response(status=201)
+class ClientViewSet(viewsets.ModelViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer

@@ -1,4 +1,5 @@
 from rest_framework.serializers import (
+    HyperlinkedModelSerializer,
     ModelSerializer,
     CharField,
     ValidationError
@@ -6,18 +7,18 @@ from rest_framework.serializers import (
 from .models import Client
 
 
-class ClientSerializer(ModelSerializer):
+class ClientSerializer(HyperlinkedModelSerializer):
     confirm_domain_url = CharField(write_only=True)
     class Meta:
         model = Client
         fields = [
+            'url',
             'name',
             'email',
             'phone',
             'schema_name',
             'domain_url',
             'created_on',
-            'id',
             # Write only fields (won't be returned in the response):
             'confirm_domain_url',
         ]

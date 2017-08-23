@@ -1,12 +1,20 @@
 from django.db import models
-from properties.models.unit import Unit
-from tenants.models.occupant_type import OccupantType
+from properties.models import Unit
 from property_management.validators.phone_number import validate_phone_number
 
 """
 Model fields default to required.  To make a field optional add, 'null=True'. 
 Left side of CHOICES tuple is saved to database; right side is the human-readable form.
 """
+
+class OccupantType(models.Model):
+    name = models.CharField(max_length=100)
+    occupant_type_id = models.IntegerField(unique=True)
+
+    def __str__(self):
+        return str(self.occupant_type_id) + ' - ' + self.name
+
+
 class Tenant(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
