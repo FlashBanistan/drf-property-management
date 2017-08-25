@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework_swagger.views import get_swagger_view
 from rest_framework import routers
-from clients.views import ClientViewSet
+from entities.views import ClientViewSet
 from properties.views import PropertyViewSet, BuildingViewSet, UnitViewSet
 from tenants.views import TenantViewSet, OccupantTypeViewSet
 from legal.views import LeaseViewSet

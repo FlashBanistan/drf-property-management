@@ -28,12 +28,12 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 AUTH_USER_MODEL = 'authentication.User'
-TENANT_MODEL = 'clients.Client'
+TENANT_MODEL = 'entities.Client'
 DEFAULT_FILE_STORAGE = 'tenant_schemas.storage.TenantFileSystemStorage'
 
 SHARED_APPS = [
     'tenant_schemas', # Mandatory
-    'clients', # You must list the app where your client/tenant model resides.
+    'entities', # You must list the app where your client/tenant model resides.
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.contenttypes',
@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
-    'clients',
+    'entities',
     'rest_framework',
     'authentication',
     'properties',
