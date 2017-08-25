@@ -54,6 +54,7 @@ TENANT_APPS = [
     'authentication',
     'properties',
     'tenants',
+    'legal',
 ]
 
 INSTALLED_APPS = [
@@ -70,6 +71,7 @@ INSTALLED_APPS = [
     'authentication',
     'properties',
     'tenants',
+    'legal',
     'rest_framework_swagger',
 ]
 

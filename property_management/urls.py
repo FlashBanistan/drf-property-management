@@ -20,6 +20,7 @@ from rest_framework import routers
 from clients.views import ClientViewSet
 from properties.views import PropertyViewSet, BuildingViewSet, UnitViewSet
 from tenants.views import TenantViewSet, OccupantTypeViewSet
+from legal.views import LeaseViewSet
 
 schema_view = get_swagger_view(title='Property Management API')
 
@@ -30,6 +31,7 @@ router.register(r'buildings', BuildingViewSet)
 router.register(r'units', UnitViewSet)
 router.register(r'tenants', TenantViewSet)
 router.register(r'occupant_type', OccupantTypeViewSet)
+router.register(r'leases', LeaseViewSet)
 
 urlpatterns = [
     url(r'^$', schema_view),
