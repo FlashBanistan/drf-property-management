@@ -4,18 +4,18 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from authentication.models import GenericUser
+from authentication.models import Tenant, TenantType
 
 
-class UserCreationForm(forms.ModelForm):
+class TenantCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
-        model = GenericUser
-        fields = ('email',)
+        model = Tenant
+        fields = ('email', 'first_name', 'last_name', 'phone_number', 'tenant_type')
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -27,14 +27,14 @@ class UserCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         # Save the provided password in hashed format
-        user = super(UserCreationForm, self).save(commit=False)
+        user = super(TenantCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
         return user
 
 
-class UserChangeForm(forms.ModelForm):
+class TenantChangeForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's
     password hash display field.
@@ -42,8 +42,8 @@ class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = GenericUser
-        fields = ('email', 'password', 'is_superuser')
+        model = Tenant
+        fields = ('email', 'password', 'first_name', 'last_name', 'phone_number', 'tenant_type')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -52,20 +52,20 @@ class UserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
-class UserAdmin(BaseUserAdmin):
+class TenantAdmin(BaseUserAdmin):
     # The forms to add and change user instances
-    form = UserChangeForm
-    add_form = UserCreationForm
+    form = TenantChangeForm
+    add_form = TenantCreationForm
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
     # list_display = ('email', 'is_admin')
     # list_filter = ('is_admin')
-    list_display = ['email']
+    list_display = ('email', )
     list_filter = ()
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'phone_number', 'tenant_type')}),
         # ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -81,7 +81,8 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 # Now register the new UserAdmin...
-admin.site.register(GenericUser, UserAdmin)
+admin.site.register(Tenant,TenantAdmin)
+admin.site.register(TenantType)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)

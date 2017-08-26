@@ -83,10 +83,10 @@ class GenericUser(AbstractUser):
 
 class TenantType(models.Model):
     name = models.CharField(max_length=100)
-    tenant_type_id = models.IntegerField(unique=True)
+    numerical_order = models.IntegerField(unique=True)
 
     def __str__(self):
-        return str(self.occupant_type_id) + ' - ' + self.name
+        return str(self.numerical_order) + ' - ' + self.name
 
 
 class Tenant(AbstractUser):
