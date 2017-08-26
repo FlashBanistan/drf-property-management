@@ -1,75 +1,106 @@
 from django.db import models
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
-)
+from django.utils import timezone
+from django.contrib.auth.models import (AbstractBaseUser,
+                                        BaseUserManager as DjBaseUserManager)
+
+from model_utils.managers import InheritanceManager
+from property_management.validators.phone_number import validate_phone_number
 
 
-class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
-        """
-        Creates and saves a User with the given email, and password.
-        """
-        if not email:
-            raise ValueError('Users must have an email address')
+class BaseUserManager(DjBaseUserManager, InheritanceManager):
+    """
+    Manager for all Users types
+    create_user() and create_superuser() must be overriden as we do not use
+    unique username but unique email.
+    """
 
-        user = self.model(
-            email=self.normalize_email(email),
-        )
+    def create_user(self, email=None, password=None, **extra_fields):
+        now = timezone.now()
+        email = BaseUserManager.normalize_email(email)
+        u = GenericUser(email=email, is_superuser=False, last_login=now,
+                        **extra_fields)
+        u.set_password(password)
+        u.save(using=self._db)
+        return u
 
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, password):
-        """
-        Creates and saves a superuser with the given email, and password.
-        """
-        user = self.create_user(
-            email,
-            password=password,
-        )
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+    def create_superuser(self, email, password, **extra_fields):
+        u = self.create_user(email, password, **extra_fields)
+        u.is_superuser = True
+        u.save(using=self._db)
+        return u
 
 
-class User(AbstractBaseUser):
-    email = models.EmailField(
-        verbose_name='email address',
-        max_length=255,
-        unique=True,
-    )
-    is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
-
-    objects = UserManager()
-
+class CallableUser(AbstractBaseUser):
+    """
+    The CallableUser class allows to get any type of user by calling
+    CallableUser.objects.get_subclass(email="my@email.dom") or
+    CallableUser.objects.filter(email__endswith="@email.dom").select_subclasses()
+    """
+    email = models.EmailField(unique=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELD = USERNAME_FIELD
+    objects = BaseUserManager()
 
-    def get_full_name(self):
-        # The user is identified by their email address
+
+class AbstractUser(CallableUser):
+    """
+    Here are the fields that are shared among specific User subtypes.
+    Making it abstract makes 1 email possible in each User subtype.
+    """
+    is_superuser = False
+    is_staff = True
+    is_admin = True
+    objects = BaseUserManager()
+
+    def __str__(self):
         return self.email
 
     def get_short_name(self):
         # The user is identified by their email address
         return self.email
-
-    def __str__(self):              # __unicode__ on Python 2
-        return self.email
-
+    
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
         # Simplest possible answer: Yes, always
         return True
-
+    
     def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
+        "Does the user have permissions to view the app 'app_label'?"
+        #Simplest possible answer: yes, always
         return True
 
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
-        return self.is_admin
+    class Meta:
+        abstract = True
+
+
+class GenericUser(AbstractUser):
+    """
+    A GenericUser is any type of system user (such as an admin).
+    This is the one that should be referenced in settings.AUTH_USER_MODEL
+    """
+    is_superuser = models.BooleanField(default=False)
+
+
+class TenantType(models.Model):
+    name = models.CharField(max_length=100)
+    tenant_type_id = models.IntegerField(unique=True)
+
+    def __str__(self):
+        return str(self.occupant_type_id) + ' - ' + self.name
+
+
+class Tenant(AbstractUser):
+    """
+    User subtype with specific fields and properties
+    """
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=11, validators=[validate_phone_number], null=True, blank=True)
+    ssn = models.CharField(max_length=11, null=True, blank=True)
+    # Relationships:
+    tenant_type = models.ForeignKey(TenantType, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
+
+

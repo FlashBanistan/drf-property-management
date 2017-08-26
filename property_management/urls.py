@@ -19,7 +19,7 @@ from rest_framework_swagger.views import get_swagger_view
 from rest_framework import routers
 from entities.views import ClientViewSet
 from properties.views import PropertyViewSet, BuildingViewSet, UnitViewSet
-from tenants.views import TenantViewSet, OccupantTypeViewSet
+from authentication.views import TenantViewSet, OccupantTypeViewSet
 from legal.views import LeaseViewSet
 
 schema_view = get_swagger_view(title='Property Management API')

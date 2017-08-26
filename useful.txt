@@ -3,9 +3,12 @@ dropdb --username=postgres --password property_management
 createdb --username=postgres --password property_management
 python manage.py migrate_schemas
 OPEN SHELL w/ 'python manage.py shell'
-from clients.models import Client
+from entities.models import Client
 client = Client(domain_url='localhost', schema_name='public', name='public')
 client.save()
+
+START A SHELL WITH SCHEMA SET
+python manage.py tenant_command shell --schema=<name_of_the_schema>
 
 STEPS TO START PGADMIN4
 activate the virtual environment located in Documents.

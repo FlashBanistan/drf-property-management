@@ -1,5 +1,5 @@
 from django.db import models
-from tenants.models import Tenant
+from authentication.models import Tenant
 from properties.models import Property
 
 

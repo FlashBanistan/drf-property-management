@@ -1,16 +1,17 @@
 from django.db import models
+from authentication.models import Tenant
 from property_management.validators.phone_number import validate_phone_number
 
 class Property(models.Model):
     # Identification details:
-    name = models.CharField(max_length=100, null=False, blank=False)
+    name = models.CharField(max_length=100)
     phone = models.CharField(max_length=11, validators=[validate_phone_number])
-    address = models.CharField(max_length=100, null=False, blank=False)
-    city = models.CharField(max_length=100, null=False, blank=False)
-    state = models.CharField(max_length=100, null=False, blank=False)
-    zip_code = models.CharField(max_length=10,null=False, blank=False)
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=10)
     # Relationships:
-    
+    tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
     # Other details:
     created_on = models.DateField(auto_now_add=True)
 
@@ -22,9 +23,10 @@ class Property(models.Model):
 
 
 class Building(models.Model):
-    name = models.CharField(max_length=100, null=False, blank=False)
+    name = models.CharField(max_length=100)
     # Relationships:
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    property = models.ForeignKey(Property, null=True, blank=True, on_delete=models.CASCADE)
+    tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
@@ -32,18 +34,19 @@ class Building(models.Model):
 
 class Unit(models.Model):
     # Location details:
-    address = models.CharField(max_length=100, null=False, blank=False)
-    city = models.CharField(max_length=100, null=False, blank=False)
-    state = models.CharField(max_length=100, null=False, blank=False)
-    zip_code = models.CharField(max_length=10,null=False, blank=False)
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=10)
     unit_number = models.CharField(max_length=10, default=None)
     # Unit details:
-    sq_ft = models.IntegerField()
-    bedrooms = models.IntegerField()
-    baths = models.FloatField()
+    sq_ft = models.IntegerField(null=True, blank=True)
+    bedrooms = models.IntegerField(null=True, blank=True)
+    baths = models.FloatField(null=True, blank=True)
     # Relationships:
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
-    building = models.ForeignKey(Building, null=True, on_delete=models.SET_NULL)
+    property = models.ForeignKey(Property, null=True, blank=True, on_delete=models.CASCADE) # Consider setting property and building to OneToOneField.
+    building = models.ForeignKey(Building, null=True, blank=True, on_delete=models.SET_NULL)
+    tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return 'Unit ' + self.unit_number

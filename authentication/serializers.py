@@ -1,10 +1,10 @@
 from rest_framework.serializers import HyperlinkedModelSerializer
-from .models import Tenant, OccupantType
+from .models import Tenant, TenantType
 
 
-class OccupantTypeSerializer(HyperlinkedModelSerializer):
+class TenantTypeSerializer(HyperlinkedModelSerializer):
     class Meta:
-        model = OccupantType
+        model = TenantType
         fields = '__all__'
 
 class TenantSerializer(HyperlinkedModelSerializer):
@@ -12,7 +12,7 @@ class TenantSerializer(HyperlinkedModelSerializer):
         model = Tenant
         fields = [
             'url',
-            'occupant_type',
+            'tenant_type',
             'first_name',
             'last_name',
             'email',
