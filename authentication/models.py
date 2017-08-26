@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import (AbstractBaseUser,
-                                        BaseUserManager as DjBaseUserManager)
-
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager as DjBaseUserManager)
 from model_utils.managers import InheritanceManager
 from property_management.validators.phone_number import validate_phone_number
 

@@ -17,7 +17,7 @@ class TenantViewSet(viewsets.ModelViewSet):
         'first_name',
         'id',
         'last_name',
-        'occupant_type',
+        'tenant_type',
         'phone_number',
         'ssn'
     )

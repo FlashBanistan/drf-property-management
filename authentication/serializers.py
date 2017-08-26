@@ -18,5 +18,4 @@ class TenantSerializer(HyperlinkedModelSerializer):
             'email',
             'phone_number',
             'ssn',
-            'unit',
         ]
