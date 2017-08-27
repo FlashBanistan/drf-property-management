@@ -46,8 +46,8 @@ class AbstractUser(CallableUser):
     Making it abstract makes 1 email possible in each User subtype.
     """
     is_superuser = False
-    is_staff = True
-    is_admin = True
+    is_staff = False
+    is_admin = False
     objects = BaseUserManager()
 
     def __str__(self):
@@ -77,6 +77,8 @@ class GenericUser(AbstractUser):
     This is the one that should be referenced in settings.AUTH_USER_MODEL
     """
     is_superuser = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
 
 class TenantType(models.Model):
@@ -87,7 +89,7 @@ class TenantType(models.Model):
         return str(self.numerical_order) + ' - ' + self.name
 
 
-class Tenant(AbstractUser):
+class Tenant(GenericUser):
     """
     User subtype with specific fields and properties
     """
