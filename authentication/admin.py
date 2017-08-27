@@ -11,11 +11,20 @@ class TenantCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation')
 
     class Meta:
         model = Tenant
-        fields = ('email', 'first_name', 'last_name', 'phone_number', 'tenant_type')
+        fields = (
+            'email',
+            'first_name',
+            'last_name',
+            'phone_number',
+            'tenant_type',
+            'is_superuser',
+            'is_admin',
+            'is_staff'
+        )
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -43,7 +52,17 @@ class TenantChangeForm(forms.ModelForm):
 
     class Meta:
         model = Tenant
-        fields = ('email', 'password', 'first_name', 'last_name', 'phone_number', 'tenant_type')
+        fields = (
+            'email',
+            'password',
+            'first_name',
+            'last_name',
+            'phone_number',
+            'tenant_type',
+            'is_superuser',
+            'is_admin',
+            'is_staff'
+        )
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -62,10 +81,10 @@ class TenantAdmin(BaseUserAdmin):
     # that reference specific fields on auth.User.
     # list_display = ('email', 'is_admin')
     # list_filter = ('is_admin')
-    list_display = ('email', )
-    list_filter = ()
+    list_display = ('email', 'is_admin', )
+    list_filter = ('is_superuser', 'is_admin', 'is_staff', 'tenant_type')
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'phone_number', 'tenant_type')}),
+        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'phone_number', 'tenant_type', 'is_superuser', 'is_admin', 'is_staff')}),
         # ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -73,7 +92,7 @@ class TenantAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2')}
+            'fields': ('email', 'password1', 'password2', 'is_superuser', 'is_admin', 'is_staff')}
         ),
     )
     search_fields = ('email',)
