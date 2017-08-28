@@ -93,9 +93,6 @@ class TenantCreationForm(forms.ModelForm):
             'last_name',
             'phone_number',
             'tenant_type',
-            'is_superuser',
-            'is_admin',
-            'is_staff'
         )
 
     def clean_password2(self):
@@ -131,9 +128,6 @@ class TenantChangeForm(forms.ModelForm):
             'last_name',
             'phone_number',
             'tenant_type',
-            'is_superuser',
-            'is_admin',
-            'is_staff'
         )
 
     def clean_password(self):
@@ -154,9 +148,9 @@ class TenantAdmin(BaseUserAdmin):
     # list_display = ('email', 'is_admin')
     # list_filter = ('is_admin')
     list_display = ('email', 'is_admin', )
-    list_filter = ('is_superuser', 'is_admin', 'is_staff', 'tenant_type')
+    list_filter = ('tenant_type',)
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'phone_number', 'tenant_type', 'is_superuser', 'is_admin', 'is_staff')}),
+        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'phone_number', 'tenant_type')}),
         # ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -164,7 +158,7 @@ class TenantAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'is_superuser', 'is_admin', 'is_staff')}
+            'fields': ('email', 'password1', 'password2',)}
         ),
     )
     search_fields = ('email',)
