@@ -33,11 +33,13 @@ class GenericUserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(GenericUserCreationForm, self).save(commit=False)
-        print('')
-        print('INNN HEREEEEE')
-        print('')
         if self.cleaned_data["password1"]:
             user.set_password(self.cleaned_data["password1"])
+        print('EMAILLLL:::::::: ', user.email)
+        print('TYPE::: ', type(user.email))
+        if (user.email == 'None'):
+            print('YEPPP')
+            user.email = None
         if commit:
             user.save()
         return user
@@ -46,7 +48,7 @@ class GenericUserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = Tenant
+        model = GenericUser
         fields = (
             'email',
             'password',
@@ -61,9 +63,12 @@ class GenericUserChangeForm(forms.ModelForm):
         # field does not have access to the initial value
         return self.initial["password"]
 
+
 class GenericUserAdmin(BaseUserAdmin):
     form = GenericUserChangeForm
     add_form = GenericUserCreationForm
+    empty_value_display = 'unknown'
+
     list_display = ('email', 'is_superuser', 'is_admin', 'is_staff', )
     list_filter = ('is_superuser', 'is_admin', 'is_staff',)
     fieldsets = (
@@ -86,8 +91,8 @@ TENANT
 class TenantCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation')
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=False)
+    password2 = forms.CharField(label='Password confirmation', required=False)
 
     class Meta:
         model = Tenant
