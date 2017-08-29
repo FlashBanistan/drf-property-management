@@ -36,7 +36,7 @@ class CallableUser(AbstractBaseUser):
     CallableUser.objects.get_subclass(email="my@email.dom") or
     CallableUser.objects.filter(email__endswith="@email.dom").select_subclasses()
     """
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, default=None, null=True, blank=True)
     USERNAME_FIELD = 'email'
     # REQUIRED_FIELD = USERNAME_FIELD
     objects = BaseUserManager()
@@ -53,6 +53,8 @@ class AbstractUser(CallableUser):
     objects = BaseUserManager()
 
     def __str__(self):
+        if (self.email is None):
+            return ''
         return self.email
 
     def get_short_name(self):
@@ -88,7 +90,7 @@ class TenantType(models.Model):
     numerical_order = models.IntegerField(unique=True)
 
     def __str__(self):
-        return str(self.numerical_order) + ' - ' + self.name
+        return str(self.numerical_order) + ' - ' + str(self.name)
 
 
 class Tenant(GenericUser):
@@ -103,6 +105,8 @@ class Tenant(GenericUser):
     tenant_type = models.ForeignKey(TenantType, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
+        if (self.first_name is None or self.last_name is None):
+            return ''
         return self.first_name + ' ' + self.last_name
 
 

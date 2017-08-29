@@ -10,8 +10,8 @@ from authentication.models import Tenant, TenantType, GenericUser
 GENERIC USER
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 class GenericUserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation')
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=False)
+    password2 = forms.CharField(label='Password confirmation', required=False)
 
     class Meta:
         model = GenericUser
@@ -32,8 +32,12 @@ class GenericUserCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         # Save the provided password in hashed format
-        user = super(TenantCreationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
+        user = super(GenericUserCreationForm, self).save(commit=False)
+        print('')
+        print('INNN HEREEEEE')
+        print('')
+        if self.cleaned_data["password1"]:
+            user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
         return user
