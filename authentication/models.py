@@ -38,7 +38,7 @@ class CallableUser(AbstractBaseUser):
     """
     email = models.EmailField(unique=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELD = USERNAME_FIELD
+    # REQUIRED_FIELD = USERNAME_FIELD
     objects = BaseUserManager()
 
 

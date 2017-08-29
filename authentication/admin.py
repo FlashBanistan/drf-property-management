@@ -147,7 +147,7 @@ class TenantAdmin(BaseUserAdmin):
     # that reference specific fields on auth.User.
     # list_display = ('email', 'is_admin')
     # list_filter = ('is_admin')
-    list_display = ('email', 'is_admin', )
+    list_display = ('email', 'first_name', 'last_name', 'id', 'is_admin', )
     list_filter = ('tenant_type',)
     fieldsets = (
         (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'phone_number', 'tenant_type')}),

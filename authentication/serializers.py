@@ -1,4 +1,4 @@
-from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer, EmailField
 from .models import Tenant, TenantType
 
 
@@ -8,6 +8,7 @@ class TenantTypeSerializer(HyperlinkedModelSerializer):
         fields = '__all__'
 
 class TenantSerializer(HyperlinkedModelSerializer):
+    email = EmailField(required=False)
     class Meta:
         model = Tenant
         fields = [
