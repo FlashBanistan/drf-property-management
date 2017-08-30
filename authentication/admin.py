@@ -2,6 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.admin import ModelAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 from authentication.models import Tenant, TenantType, GenericUser
@@ -46,6 +47,7 @@ class GenericUserCreationForm(forms.ModelForm):
 
 class GenericUserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
+    email = forms.EmailField()
 
     class Meta:
         model = GenericUser
@@ -61,10 +63,11 @@ class GenericUserChangeForm(forms.ModelForm):
         # Regardless of what the user provides, return the initial value.
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
+        print("CLEANING PASSWORD")
         return self.initial["password"]
 
 
-class GenericUserAdmin(BaseUserAdmin):
+class GenericUserAdmin(ModelAdmin):
     form = GenericUserChangeForm
     add_form = GenericUserCreationForm
     empty_value_display = 'unknown'
@@ -101,6 +104,7 @@ class TenantCreationForm(forms.ModelForm):
             'first_name',
             'last_name',
             'phone_number',
+            'ssn',
             'tenant_type',
         )
 
@@ -136,6 +140,7 @@ class TenantChangeForm(forms.ModelForm):
             'first_name',
             'last_name',
             'phone_number',
+            'ssn',
             'tenant_type',
         )
 
@@ -157,9 +162,9 @@ class TenantAdmin(BaseUserAdmin):
     # list_display = ('email', 'is_admin')
     # list_filter = ('is_admin')
     list_display = ('email', 'first_name', 'last_name', 'id', 'is_admin', )
-    list_filter = ('tenant_type',)
+    list_filter = ('tenant_type', 'last_name', 'email')
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'phone_number', 'tenant_type')}),
+        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'phone_number', 'ssn', 'tenant_type')}),
         # ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
