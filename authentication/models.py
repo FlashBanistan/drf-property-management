@@ -105,7 +105,8 @@ class Tenant(GenericUser):
     """
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=11, validators=[validate_phone_number], null=True, blank=True)
+    # phone_number = models.CharField(max_length=11, validators=[validate_phone_number], null=True, blank=True)
+    phone_number = models.CharField(max_length=11, null=True, blank=True)
     ssn = models.CharField(max_length=11, null=True, blank=True)
     # Relationships:
     tenant_type = models.ForeignKey(TenantType, null=True, on_delete=models.SET_NULL)
