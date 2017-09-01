@@ -30,7 +30,7 @@ router.register(r'properties', PropertyViewSet)
 router.register(r'buildings', BuildingViewSet)
 router.register(r'units', UnitViewSet)
 router.register(r'tenants', TenantViewSet)
-router.register(r'occupant_type', OccupantTypeViewSet)
+router.register(r'tenant_types', OccupantTypeViewSet)
 router.register(r'leases', LeaseViewSet)
 
 urlpatterns = [
