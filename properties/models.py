@@ -44,7 +44,7 @@ class Unit(models.Model):
     bedrooms = models.IntegerField(null=True, blank=True)
     baths = models.FloatField(null=True, blank=True)
     # Relationships:
-    property = models.ForeignKey(Property, null=True, blank=True, on_delete=models.CASCADE) # Consider setting property and building to OneToOneField.
+    property = models.ForeignKey(Property, null=True, blank=True, on_delete=models.CASCADE)
     building = models.ForeignKey(Building, null=True, blank=True, on_delete=models.SET_NULL)
     tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
 

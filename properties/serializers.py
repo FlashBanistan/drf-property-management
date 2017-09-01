@@ -1,4 +1,4 @@
-from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer, ListSerializer
 from .models import Property, Building, Unit
 
 class PropertySerializer(HyperlinkedModelSerializer):
@@ -11,7 +11,26 @@ class BuildingSerializer(HyperlinkedModelSerializer):
         model = Building
         fields = '__all__'
 
+class UnitBulkCreateSerializer(ListSerializer):
+    def create(self, validated_data):
+        units = [Unit(**item) for item in validated_data]
+        return Unit.objects.bulk_create(units)
+
 class UnitSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Unit
-        fields = '__all__'
+        list_serializer_class = UnitBulkCreateSerializer
+        fields = [
+            'url',
+            'address',
+            'city',
+            'state',
+            'zip_code',
+            'unit_number',
+            'sq_ft',
+            'bedrooms',
+            'baths',
+            'property',
+            'building',
+            'tenants'
+        ]
