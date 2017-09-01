@@ -13,7 +13,7 @@ class BuildingSerializer(HyperlinkedModelSerializer):
 
 class UnitBulkCreateSerializer(ListSerializer):
     def create(self, validated_data):
-        units = [Unit(**item) for item in validated_data]
+        units = [Unit(**unit) for unit in validated_data]
         return Unit.objects.bulk_create(units)
 
 class UnitSerializer(HyperlinkedModelSerializer):
