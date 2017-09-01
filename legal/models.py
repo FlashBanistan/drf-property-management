@@ -1,6 +1,6 @@
 from django.db import models
 from authentication.models import Tenant
-from properties.models import Property
+from properties.models import Property, Unit
 
 
 class Lease(models.Model):
@@ -10,6 +10,7 @@ class Lease(models.Model):
     # Relationships:
     leasees = models.ManyToManyField(Tenant)
     leasors = models.ManyToManyField(Property)
+    unit = models.OneToOneField(Unit)
 
     
     def save(self, *args, **kwargs):
