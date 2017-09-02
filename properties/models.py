@@ -6,6 +6,7 @@ class Property(models.Model):
     # Identification details:
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=11, validators=[validate_phone_number])
+    email = models.EmailField()
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
