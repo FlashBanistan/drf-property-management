@@ -19,6 +19,14 @@ class PropertyViewSet(viewsets.ModelViewSet):
         'name'
     )
 
+    @list_route(methods=['post'])
+    def bulk_create(self, request):
+        serializer = self.get_serializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
+
 class BuildingViewSet(viewsets.ModelViewSet):
     queryset = Building.objects.all()
     serializer_class = BuildingSerializer
@@ -28,6 +36,14 @@ class BuildingViewSet(viewsets.ModelViewSet):
         'id',
         'name'
     )
+
+    @list_route(methods=['post'])
+    def bulk_create(self, request):
+        serializer = self.get_serializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UnitViewSet(viewsets.ModelViewSet):
     queryset = Unit.objects.all()

@@ -25,6 +25,10 @@ class Property(models.Model):
 
 class Building(models.Model):
     name = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=10)
     # Relationships:
     property = models.ForeignKey(Property, null=True, blank=True, on_delete=models.CASCADE)
     tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)

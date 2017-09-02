@@ -1,0 +1,22 @@
+[
+ {
+   "pk": 1,
+   "name": "Building 1",
+   "address": "10464 S. Jordan Gateway",
+   "city": "South Jordan",
+   "state": "UT",
+   "zip_code": 84095,
+   "property": "http://gmc.localhost:8000/api/properties/1/",
+   "tenants": null
+ },
+ {
+   "pk": 2,
+   "name": "Building 2",
+   "address": "10470 S. Jordan Gateway",
+   "city": "South Jordan",
+   "state": "UT",
+   "zip_code": 84095,
+   "property": "http://gmc.localhost:8000/api/properties/1/",
+   "tenants": null
+ }
+]
