@@ -19,7 +19,7 @@ from rest_framework_swagger.views import get_swagger_view
 from rest_framework import routers
 from entities.views import ClientViewSet
 from properties.views import PropertyViewSet, BuildingViewSet, UnitViewSet
-from authentication.views import TenantViewSet, OccupantTypeViewSet
+from authentication.views import TenantViewSet, TenantTypeViewSet, AuthUserViewSet
 from legal.views import LeaseViewSet
 
 schema_view = get_swagger_view(title='Property Management API')
@@ -29,8 +29,9 @@ router.register(r'clients', ClientViewSet)
 router.register(r'properties', PropertyViewSet)
 router.register(r'buildings', BuildingViewSet)
 router.register(r'units', UnitViewSet)
+router.register(r'users', AuthUserViewSet)
 router.register(r'tenants', TenantViewSet)
-router.register(r'tenant_types', OccupantTypeViewSet)
+router.register(r'tenant_types', TenantTypeViewSet)
 router.register(r'leases', LeaseViewSet)
 
 urlpatterns = [

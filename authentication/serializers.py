@@ -1,6 +1,30 @@
-from rest_framework.serializers import HyperlinkedModelSerializer, ListSerializer, EmailField
-from .models import Tenant, TenantType
+from rest_framework.serializers import ValidationError, CharField, HyperlinkedModelSerializer, HyperlinkedRelatedField, ListSerializer, EmailField
+from .models import Tenant, TenantType, AuthUser
 
+class AuthUserSerializer(HyperlinkedModelSerializer):
+    email = EmailField(required=True)
+    confirm_password = CharField(write_only=True)
+    class Meta:
+        model = AuthUser
+        fields = [
+            'url',
+            'email',
+            'password',
+            'confirm_password'
+        ]
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+    def create(self, validated_data):
+        auth_user = AuthUser(
+            email=validated_data['email'],
+        )
+        if validated_data['password'] != validated_data['confirm_password']:
+            raise ValidationError("Passwords do no match.")
+        auth_user.set_password(validated_data['password'])
+        auth_user.save()
+        return auth_user
 
 class TenantTypeSerializer(HyperlinkedModelSerializer):
     class Meta:
@@ -13,7 +37,7 @@ class TenantBulkCreateSerializer(ListSerializer):
         return Tenant.objects.bulk_create(tenants)
 
 class TenantSerializer(HyperlinkedModelSerializer):
-    email = EmailField(required=False)
+    auth = AuthUserSerializer(read_only=True)
     class Meta:
         model = Tenant
         list_serializer_class = TenantBulkCreateSerializer
@@ -22,7 +46,7 @@ class TenantSerializer(HyperlinkedModelSerializer):
             'tenant_type',
             'first_name',
             'last_name',
-            'email',
             'phone_number',
             'ssn',
+            'auth',
         ]

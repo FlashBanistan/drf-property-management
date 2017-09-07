@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager as DjBaseUserManager)
-from model_utils.managers import InheritanceManager
+# from model_utils.managers import InheritanceManager
 from property_management.validators.phone_number import validate_phone_number
 
 
-class BaseUserManager(DjBaseUserManager, InheritanceManager):
+class BaseUserManager(DjBaseUserManager):
     """
     Manager for all Users types
     create_user() and create_superuser() must be overriden as we do not use
@@ -15,7 +15,7 @@ class BaseUserManager(DjBaseUserManager, InheritanceManager):
     def create_user(self, email=None, password=None, **extra_fields):
         now = timezone.now()
         email = BaseUserManager.normalize_email(email)
-        u = GenericUser(email=email, is_superuser=False, last_login=now,
+        u = AuthUser(email=email, is_superuser=False, last_login=now,
                         **extra_fields)
         u.set_password(password)
         u.save(using=self._db)
@@ -30,29 +30,16 @@ class BaseUserManager(DjBaseUserManager, InheritanceManager):
         return u
 
 
-class CallableUser(AbstractBaseUser):
-    """
-    The CallableUser class allows to get any type of user by calling
-    CallableUser.objects.get_subclass(email="my@email.dom") or
-    CallableUser.objects.filter(email__endswith="@email.dom").select_subclasses()
-    """
+class AuthUser(AbstractBaseUser):
     email = models.EmailField(unique=True, default=None, null=True, blank=True)
     USERNAME_FIELD = 'email'
-    # REQUIRED_FIELD = USERNAME_FIELD
-    objects = BaseUserManager()
-
-    def __str__(self):
-        return str(self.email)
-
-
-class AbstractUser(CallableUser):
-    """
-    Here are the fields that are shared among specific User subtypes.
-    Making it abstract makes 1 email possible in each User subtype.
-    """
-    is_superuser = False
-    is_staff = False
-    is_admin = False
+    REQUIRED_FIELD = USERNAME_FIELD
+    # is_superuser = False
+    # is_staff = False
+    # is_admin = False
+    is_superuser = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
     objects = BaseUserManager()
 
     def __str__(self):
@@ -74,22 +61,6 @@ class AbstractUser(CallableUser):
         #Simplest possible answer: yes, always
         return True
 
-    class Meta:
-        abstract = True
-
-
-class GenericUser(AbstractUser):
-    """
-    A GenericUser is any type of system user (such as an admin).
-    This is the one that should be referenced in settings.AUTH_USER_MODEL
-    """
-    is_superuser = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
-
-    def __str__(self):
-        return str(self.email)
-
 
 class TenantType(models.Model):
     name = models.CharField(max_length=100)
@@ -99,7 +70,7 @@ class TenantType(models.Model):
         return str(self.numerical_order) + ' - ' + str(self.name)
 
 
-class Tenant(GenericUser):
+class Tenant(models.Model):
     """
     User subtype with specific fields and properties
     """
@@ -110,6 +81,7 @@ class Tenant(GenericUser):
     ssn = models.CharField(max_length=11, null=True, blank=True)
     # Relationships:
     tenant_type = models.ForeignKey(TenantType, null=True, on_delete=models.SET_NULL)
+    auth = models.OneToOneField(AuthUser, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         if (self.first_name is None or self.last_name is None):

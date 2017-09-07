@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Application definition
-AUTH_USER_MODEL = 'authentication.GenericUser'
+AUTH_USER_MODEL = 'authentication.AuthUser'
 TENANT_MODEL = 'entities.Client'
 DEFAULT_FILE_STORAGE = 'tenant_schemas.storage.TenantFileSystemStorage'
 
