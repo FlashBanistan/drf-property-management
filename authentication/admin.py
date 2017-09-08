@@ -11,13 +11,15 @@ from authentication.models import Tenant, TenantType, AuthUser
 GENERIC USER
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 class AuthUserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=False)
-    password2 = forms.CharField(label='Password confirmation', required=False)
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
         model = AuthUser
         fields = (
             'email',
+            'password1',
+            'password2',
             'is_superuser',
             'is_admin',
             'is_staff',
@@ -37,7 +39,6 @@ class AuthUserCreationForm(forms.ModelForm):
         if self.cleaned_data["password1"]:
             user.set_password(self.cleaned_data["password1"])
         if (user.email == 'None'):
-            print('YEPPP')
             user.email = None
         if commit:
             user.save()

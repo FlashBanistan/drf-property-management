@@ -6,6 +6,8 @@ OPEN SHELL w/ 'python manage.py shell'
 from entities.models import Client
 client = Client(domain_url='localhost', schema_name='public', name='public')
 client.save()
+client = Client(domain_url='gmc.localhost', schema_name='gmc_schema', name='GMC Properties')
+client.save()
 
 START A SHELL WITH SCHEMA SET
 python manage.py tenant_command shell --schema=<name_of_the_schema>

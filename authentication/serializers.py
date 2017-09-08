@@ -2,8 +2,9 @@ from rest_framework.serializers import ValidationError, CharField, HyperlinkedMo
 from .models import Tenant, TenantType, AuthUser
 
 class AuthUserSerializer(HyperlinkedModelSerializer):
-    email = EmailField(required=True)
-    confirm_password = CharField(write_only=True)
+    email = EmailField(default=None)
+    confirm_password = CharField(write_only=True, default=None)
+    password = CharField(default=None)
     class Meta:
         model = AuthUser
         fields = [
@@ -37,7 +38,7 @@ class TenantBulkCreateSerializer(ListSerializer):
         return Tenant.objects.bulk_create(tenants)
 
 class TenantSerializer(HyperlinkedModelSerializer):
-    auth = AuthUserSerializer(read_only=True)
+    auth = AuthUserSerializer(required=False, allow_null=True)
     class Meta:
         model = Tenant
         list_serializer_class = TenantBulkCreateSerializer

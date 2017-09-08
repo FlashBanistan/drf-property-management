@@ -31,7 +31,7 @@ class BaseUserManager(DjBaseUserManager):
 
 
 class AuthUser(AbstractBaseUser):
-    email = models.EmailField(unique=True, default=None, null=True, blank=True)
+    email = models.EmailField(unique=True, null=True, blank=True, default=None)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELD = USERNAME_FIELD
     # is_superuser = False
@@ -81,7 +81,7 @@ class Tenant(models.Model):
     ssn = models.CharField(max_length=11, null=True, blank=True)
     # Relationships:
     tenant_type = models.ForeignKey(TenantType, null=True, on_delete=models.SET_NULL)
-    auth = models.OneToOneField(AuthUser, null=True, blank=True, on_delete=models.SET_NULL)
+    auth = models.OneToOneField(AuthUser, null=True, blank=True, default=None)
 
     def __str__(self):
         if (self.first_name is None or self.last_name is None):
