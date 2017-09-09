@@ -1,3 +1,5 @@
 # drf-property-management
 TODO:
-1. Build custom create function to combine tenant/user creation.
+1. Figure out Lease model.
+2. Create Invoice model.
+3. Create Recipe model.
