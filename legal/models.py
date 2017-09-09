@@ -8,8 +8,9 @@ class Lease(models.Model):
     end_date = models.DateField(editable=False)
     length = models.DurationField(unique=True, help_text='Use the following format: D HH:MM:SS')
     # Relationships:
-    leasees = models.ManyToManyField(Tenant)
+    leasees = models.ManyToManyField(Tenant, related_name='tenant_leasees_set')
     leasors = models.ManyToManyField(Property)
+    occupants = models.ManyToManyField(Tenant, related_name='tenant_occupants_set', blank=True)
     unit = models.OneToOneField(Unit)
 
     

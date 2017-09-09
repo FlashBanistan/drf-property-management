@@ -51,7 +51,7 @@ class Unit(models.Model):
     # Relationships:
     property = models.ForeignKey(Property, null=True, blank=True, on_delete=models.CASCADE)
     building = models.ForeignKey(Building, null=True, blank=True, on_delete=models.SET_NULL)
-    tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
+    # tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return 'Unit ' + self.unit_number
