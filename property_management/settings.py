@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     'authentication',
     'rest_framework',
     'legal',
-    'blling',
+    'billing',
     'rest_framework_swagger',
 ]
 
