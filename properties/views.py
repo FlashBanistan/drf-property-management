@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
@@ -7,7 +6,6 @@ from django.shortcuts import get_object_or_404
 from .serializers import BuildingSerializer, UnitSerializer, UnitBulkCreateSerializer, PropertySerializer
 from .models import Property, Building, Unit
 
-User = get_user_model()
 
 class PropertyViewSet(viewsets.ModelViewSet):
     queryset = Property.objects.all()
