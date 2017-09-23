@@ -52,6 +52,7 @@ TENANT_APPS = [
     'properties',
     'authentication',
     'legal',
+    'billing',
 ]
 
 INSTALLED_APPS = [
@@ -68,6 +69,7 @@ INSTALLED_APPS = [
     'authentication',
     'rest_framework',
     'legal',
+    'blling',
     'rest_framework_swagger',
 ]
 
