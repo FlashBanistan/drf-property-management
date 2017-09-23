@@ -1,4 +1,5 @@
 from django.db import models
+from uuid import uuid4
 from legal.models import Lease
 from authentication.models import Tenant
 
@@ -12,7 +13,7 @@ TODO: 1) Research whether or not 'tax' should be included in amount or
 """
 
 class Charge(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField()
     amount = models.DecimalField(max_digits=5, decimal_places=2)
@@ -22,7 +23,7 @@ class Charge(models.Model):
     lease = models.ForeignKey(Lease, on_delete=models.PROTECT)
 
 class Payment(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     amount = models.DecimalField(max_digits=5, decimal_places=2)
     created_on = models.DateField(auto_now_add=True)
     # Relationships
