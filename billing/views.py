@@ -4,7 +4,7 @@ from .serializers import ChargeSerializer, PaymentSerializer
 from .models import Charge, Payment
 
 
-class ChargeViewSet(viewsets.ModelViewset):
+class ChargeViewSet(viewsets.ModelViewSet):
     queryset = Charge.objects.all()
     serializer_class = ChargeSerializer
     filter_fields = '__all__'
@@ -14,7 +14,7 @@ class ChargeViewSet(viewsets.ModelViewset):
         'name'
     )
 
-class PaymentViewSet(viewsets.ModelViewset):
+class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
     filter_fields = '__all__'
