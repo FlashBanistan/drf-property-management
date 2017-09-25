@@ -9,4 +9,4 @@ class ChargeSerializer(HyperlinkedModelSerializer):
 class PaymentSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Payment
-        fields = '_all__'
+        fields = '__all__'
