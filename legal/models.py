@@ -14,8 +14,8 @@ class Lease(models.Model):
     def __str__(self):
         return self.unit.address + ' ' + self.unit.city + ' ' + self.unit.state + ' #' + self.unit.unit_number
     
-    def save(self, *args, **kwargs):
-        print('Length: ', self.length)
-        print('End date: ', self.start_date + self.length)
-        self.end_date = self.start_date + self.length
-        super(Lease, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     print('Length: ', self.length)
+    #     print('End date: ', self.start_date + self.length)
+    #     self.end_date = self.start_date + self.length
+    #     super(Lease, self).save(*args, **kwargs)
