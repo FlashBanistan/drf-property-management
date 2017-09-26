@@ -7,7 +7,6 @@ class Lease(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     # Relationships:
-    tenants = models.ForeignKey(Tenant)
     lessor = models.ForeignKey(Property)
     unit = models.OneToOneField(Unit)
 
