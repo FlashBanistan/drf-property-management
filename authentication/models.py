@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager as DjBaseUserManager)
 # from model_utils.managers import InheritanceManager
 from property_management.validators.phone_number import validate_phone_number
+# from legal.models import Lease
+
 
 
 class BaseUserManager(DjBaseUserManager):
@@ -82,6 +84,7 @@ class Tenant(models.Model):
     # Relationships:
     tenant_type = models.ForeignKey(TenantType, null=True, on_delete=models.SET_NULL)
     auth = models.OneToOneField(AuthUser, null=True, blank=True, default=None)
+    lease = models.ForeignKey('legal.Lease', null=True, blank=True)
 
     def __str__(self):
         if (self.first_name is None or self.last_name is None):

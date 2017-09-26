@@ -44,10 +44,12 @@ class TenantSerializer(HyperlinkedModelSerializer):
         list_serializer_class = TenantBulkCreateSerializer
         fields = [
             'url',
+            'pk',
             'tenant_type',
             'first_name',
             'last_name',
             'phone_number',
             'ssn',
+            'lease',
             'auth',
         ]
