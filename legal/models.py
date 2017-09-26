@@ -1,5 +1,4 @@
 from django.db import models
-from authentication.models import Tenant
 from properties.models import Property, Unit
 
 
