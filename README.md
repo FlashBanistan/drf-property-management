@@ -2,6 +2,7 @@
 TODO:
 1. Create Credit model.
 2. Research a 'Reminder' model.
+3. Create an 'Announcements' model.
 
 
 IN REVIEW:
