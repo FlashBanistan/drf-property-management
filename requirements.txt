@@ -4,4 +4,3 @@ psycopg2
 django-tenant-schemas
 djangorestframework-jwt
 django-filter
-django-rest-swagger

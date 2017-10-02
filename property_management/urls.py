@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework_swagger.views import get_swagger_view
+from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 from entities.views import ClientViewSet
 from properties.views import PropertyViewSet, BuildingViewSet, UnitViewSet
@@ -44,5 +45,6 @@ urlpatterns = [
     url(r'^$', schema_view),
     url(r'^admin/', admin.site.urls),
     url(r'^api/auth/', include('authentication.urls', namespace='auth-api') ),
+    url(r'^api/auth/get_token/', obtain_jwt_token),
     url(r'^api/', include(router.urls) ),
 ]
