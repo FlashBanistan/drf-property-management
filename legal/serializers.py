@@ -21,7 +21,6 @@ class LeaseDetailSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Lease
         fields = [
-            'url',
             'start_date',
             'end_date',
             'lessor',

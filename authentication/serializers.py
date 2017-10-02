@@ -38,19 +38,19 @@ class TenantBulkCreateSerializer(ListSerializer):
         return Tenant.objects.bulk_create(tenants)
 
 class TenantListSerializer(HyperlinkedModelSerializer):
-    auth = AuthUserSerializer(required=False, allow_null=True)
+    # auth = AuthUserSerializer(required=False, allow_null=True)
     class Meta:
         model = Tenant
         list_serializer_class = TenantBulkCreateSerializer
         fields = [
             'url',
-            'tenant_type',
+            # 'tenant_type',
             'first_name',
             'last_name',
             'phone_number',
-            'ssn',
+            # 'ssn',
             'lease',
-            'auth',
+            # 'auth',
         ]
 
 class TenantDetailSerializer(HyperlinkedModelSerializer):
