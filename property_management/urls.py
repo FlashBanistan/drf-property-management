@@ -22,6 +22,7 @@ from properties.views import PropertyViewSet, BuildingViewSet, UnitViewSet
 from authentication.views import TenantViewSet, TenantTypeViewSet, AuthUserViewSet
 from legal.views import LeaseViewSet
 from billing.views import ChargeViewSet, PaymentViewSet
+from communication.views import AnnouncementViewSet
 
 schema_view = get_swagger_view(title='Property Management API')
 
@@ -36,6 +37,7 @@ router.register(r'tenant_types', TenantTypeViewSet)
 router.register(r'leases', LeaseViewSet)
 router.register(r'charges', ChargeViewSet)
 router.register(r'payments', PaymentViewSet)
+router.register(r'announcements', AnnouncementViewSet)
 
 urlpatterns = [
     url(r'^$', schema_view),
