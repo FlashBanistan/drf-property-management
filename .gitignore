@@ -10,6 +10,7 @@ db.sqlite3
 media
 config.py
 test_config.py
+static/
 
 
 ### Python ###
