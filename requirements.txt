@@ -4,3 +4,4 @@ psycopg2
 django-tenant-schemas
 djangorestframework-jwt
 django-filter
+django-cors-headers
