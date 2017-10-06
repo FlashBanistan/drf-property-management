@@ -1,3 +1,5 @@
+from property_management.settings.shared import *
+
 DEBUG = False
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
