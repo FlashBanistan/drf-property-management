@@ -1,6 +1,6 @@
 from rest_framework.serializers import HyperlinkedModelSerializer
 from .models import Lease
-from authentication.serializers import TenantListSerializer
+from authentication.serializers import TenantDetailSerializer
 
 
 class LeaseListSerializer(HyperlinkedModelSerializer):
@@ -10,14 +10,14 @@ class LeaseListSerializer(HyperlinkedModelSerializer):
             'url',
             'start_date',
             'end_date',
-            'lessor',
+            # 'lessor',
             'unit',
             'tenant_set'
         ]
 
 
 class LeaseDetailSerializer(HyperlinkedModelSerializer):
-    tenant_set = TenantListSerializer(many=True)
+    tenant_set = TenantDetailSerializer(many=True)
     class Meta:
         model = Lease
         fields = [
