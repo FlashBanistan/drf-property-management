@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from rest_framework_swagger.views import get_swagger_view
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 from entities.views import ClientViewSet
@@ -25,7 +24,6 @@ from legal.views import LeaseViewSet
 from billing.views import ChargeViewSet, PaymentViewSet
 from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
 
-schema_view = get_swagger_view(title='Property Management API')
 
 router = routers.SimpleRouter()
 router.register(r'clients', ClientViewSet)
