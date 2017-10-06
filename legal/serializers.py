@@ -23,7 +23,7 @@ class LeaseDetailSerializer(HyperlinkedModelSerializer):
         fields = [
             'start_date',
             'end_date',
-            'lessor',
+            # 'lessor',
             'unit',
             'tenant_set'
         ]
