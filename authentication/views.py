@@ -2,20 +2,17 @@ from rest_framework import viewsets
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import TenantListSerializer, TenantTypeSerializer, AuthUserSerializer
-from .models import Tenant, TenantType, AuthUser
+from .serializers import TenantListSerializer, TenantDetailSerializer, AuthUserSerializer
+from .models import Tenant, AuthUser
 
 class AuthUserViewSet(viewsets.ModelViewSet):
     queryset = AuthUser.objects.all()
     serializer_class = AuthUserSerializer
 
-class TenantTypeViewSet(viewsets.ModelViewSet):
-    queryset = TenantType.objects.all()
-    serializer_class = TenantTypeSerializer
     
 class TenantViewSet(viewsets.ModelViewSet):
     queryset = Tenant.objects.all()
-    serializer_class = TenantListSerializer
+    # serializer_class = TenantListSerializer
     filter_fields = '__all__'
     ordering_fields = '__all__'
     search_fields = (
@@ -23,10 +20,16 @@ class TenantViewSet(viewsets.ModelViewSet):
         'first_name',
         'id',
         'last_name',
-        'tenant_type',
         'phone_number',
         'ssn'
     )
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return TenantListSerializer
+        if self.action == 'retrieve':
+            return TenantDetailSerializer
+        return TenantListSerializer # Add create/destroy/update.
 
     @list_route(methods=['post'])
     def bulk_create(self, request):

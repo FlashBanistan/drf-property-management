@@ -64,14 +64,6 @@ class AuthUser(AbstractBaseUser):
         return True
 
 
-class TenantType(models.Model):
-    name = models.CharField(max_length=100)
-    numerical_order = models.IntegerField(unique=True)
-
-    def __str__(self):
-        return str(self.numerical_order) + ' - ' + str(self.name)
-
-
 class Tenant(models.Model):
     """
     User subtype with specific fields and properties
@@ -82,7 +74,7 @@ class Tenant(models.Model):
     phone_number = models.CharField(max_length=11, null=True, blank=True)
     ssn = models.CharField(max_length=11, null=True, blank=True)
     # Relationships:
-    tenant_type = models.ForeignKey(TenantType, null=True, on_delete=models.SET_NULL)
+    # tenant_type = models.ForeignKey(TenantType, null=True, on_delete=models.SET_NULL)
     auth = models.OneToOneField(AuthUser, null=True, blank=True, default=None)
     lease = models.ForeignKey('legal.Lease', null=True, blank=True)
 

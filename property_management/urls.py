@@ -20,7 +20,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 from entities.views import ClientViewSet
 from properties.views import PropertyViewSet, BuildingViewSet, UnitViewSet
-from authentication.views import TenantViewSet, TenantTypeViewSet, AuthUserViewSet
+from authentication.views import TenantViewSet, AuthUserViewSet
 from legal.views import LeaseViewSet
 from billing.views import ChargeViewSet, PaymentViewSet
 from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
@@ -34,7 +34,6 @@ router.register(r'buildings', BuildingViewSet)
 router.register(r'units', UnitViewSet)
 router.register(r'users', AuthUserViewSet)
 router.register(r'tenants', TenantViewSet)
-router.register(r'tenant_types', TenantTypeViewSet)
 router.register(r'leases', LeaseViewSet)
 router.register(r'charges', ChargeViewSet)
 router.register(r'payments', PaymentViewSet)

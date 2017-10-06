@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.admin import ModelAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from authentication.models import Tenant, TenantType, AuthUser
+from authentication.models import Tenant, AuthUser
 
 """
 GENERIC USER
@@ -92,7 +92,6 @@ NOW REGISTER THEM
 # Now register the new UserAdmin...
 admin.site.register(AuthUser, AuthUserAdmin)
 admin.site.register(Tenant)
-admin.site.register(TenantType)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)

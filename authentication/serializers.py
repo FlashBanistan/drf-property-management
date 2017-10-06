@@ -1,5 +1,6 @@
 from rest_framework.serializers import ValidationError, CharField, HyperlinkedModelSerializer, HyperlinkedRelatedField, ListSerializer, EmailField
-from .models import Tenant, TenantType, AuthUser
+from .models import Tenant, AuthUser
+
 
 class AuthUserSerializer(HyperlinkedModelSerializer):
     email = EmailField(default=None)
@@ -27,15 +28,12 @@ class AuthUserSerializer(HyperlinkedModelSerializer):
         auth_user.save()
         return auth_user
 
-class TenantTypeSerializer(HyperlinkedModelSerializer):
-    class Meta:
-        model = TenantType
-        fields = '__all__'
 
 class TenantBulkCreateSerializer(ListSerializer):
     def create(self, validated_data):
         tenants = [Tenant(**tenant) for tenant in validated_data]
         return Tenant.objects.bulk_create(tenants)
+
 
 class TenantListSerializer(HyperlinkedModelSerializer):
     # auth = AuthUserSerializer(required=False, allow_null=True)
@@ -44,7 +42,6 @@ class TenantListSerializer(HyperlinkedModelSerializer):
         list_serializer_class = TenantBulkCreateSerializer
         fields = [
             'url',
-            # 'tenant_type',
             'first_name',
             'last_name',
             # 'phone_number',
@@ -52,6 +49,7 @@ class TenantListSerializer(HyperlinkedModelSerializer):
             'lease',
             # 'auth',
         ]
+
 
 class TenantDetailSerializer(HyperlinkedModelSerializer):
     auth = AuthUserSerializer(required=False, allow_null=True)
@@ -64,7 +62,6 @@ class TenantDetailSerializer(HyperlinkedModelSerializer):
             'last_name',
             'phone_number',
             'ssn',
-            'tenant_type',
             'lease',
             'auth',
         ]
