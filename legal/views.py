@@ -17,4 +17,4 @@ class LeaseViewSet(viewsets.ModelViewSet):
             return LeaseListSerializer
         if self.action == 'retrieve':
             return LeaseDetailSerializer
-        return LeaseListSerializer # I dont' know what you want for create/destroy/update.               
+        return LeaseListSerializer # Add create/destroy/update.               
