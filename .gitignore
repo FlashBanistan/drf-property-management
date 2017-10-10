@@ -11,6 +11,7 @@ media
 config.py
 test_config.py
 static/
+property_management/settings/*
 
 
 ### Python ###
