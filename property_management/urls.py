@@ -25,7 +25,7 @@ from billing.views import ChargeViewSet, PaymentViewSet
 from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
 
 
-router = routers.SimpleRouter()
+router = routers.DefaultRouter()
 router.register(r'clients', ClientViewSet)
 router.register(r'properties', PropertyViewSet)
 router.register(r'buildings', BuildingViewSet)
