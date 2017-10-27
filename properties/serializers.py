@@ -44,5 +44,5 @@ class UnitSerializer(HyperlinkedModelSerializer):
             'baths',
             'property',
             'building',
-            'tenants'
+            # 'tenants'
         ]

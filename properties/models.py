@@ -12,7 +12,7 @@ class Property(models.Model):
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10)
     # Relationships:
-    tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
+    # tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
     # Other details:
     created_on = models.DateField(auto_now_add=True)
 
