@@ -29,7 +29,9 @@ class TenantViewSet(viewsets.ModelViewSet):
             return TenantListSerializer
         if self.action == 'retrieve':
             return TenantDetailSerializer
-        return TenantListSerializer # Add create/destroy/update.
+        if self.action == 'update':
+            return TenantDetailSerializer
+        return TenantListSerializer # Add create/destroy.
 
     @list_route(methods=['post'])
     def bulk_create(self, request):

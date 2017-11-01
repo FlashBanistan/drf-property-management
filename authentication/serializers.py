@@ -47,16 +47,14 @@ class TenantListSerializer(HyperlinkedModelSerializer):
             # 'phone_number',
             # 'ssn',
             'lease',
-            # 'auth',
+            'auth',
         ]
 
 
 class TenantDetailSerializer(HyperlinkedModelSerializer):
-    auth = AuthUserSerializer(required=False, allow_null=True)
-    lease = 'legal.LeaseDetailSerializer(many=True)'
+    # auth = AuthUserSerializer(required=False, allow_null=True)
     class Meta:
         model = Tenant
-        depth = 1
         fields = [
             'first_name',
             'last_name',
