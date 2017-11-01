@@ -1,9 +1,10 @@
 STEPS TO RECREATE DATABASE
 dropdb --username=postgres --password property_management
 createdb --username=postgres --password property_management
-python manage.py migrate_schemas
+python manage.py migrate_schemas (may need to fake migrations with --fake)
+
 OPEN SHELL w/ 'python manage.py shell'
-createdb --username=postgres --password property_management
+from entities.models import Client
 client = Client(domain_url='localhost', schema_name='public', name='public')
 client.save()
 client = Client(domain_url='gmc.localhost', schema_name='gmc_schema', name='GMC Properties')
@@ -19,5 +20,5 @@ navigate to the package and run "python pgAdmin4.py"
 START SERVER USING DIFFERENT SETTINGS
 python manage.py runserver --settings=property_management.settings.dev
 
-SET THE ENVIRONMENT
+SET THE ENVIRONMENT (don't have to specify settings everytime a command is run)
 export DJANGO_SETTINGS_MODULE=property_management.settings.dev
