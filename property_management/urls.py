@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from property_management.settings import shared
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls.static import static
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
 from entities.views import ClientViewSet
@@ -44,3 +47,9 @@ urlpatterns = [
     url(r'^api/auth/get_token/', obtain_jwt_token),
     url(r'^api/', include(router.urls) ),
 ]
+
+# Add these URLS in order for Django to be able to handle media files
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(
+    shared.MEDIA_URL, document_root=shared.MEDIA_ROOT
+)

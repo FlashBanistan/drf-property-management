@@ -1,4 +1,4 @@
-from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer, CurrentUserDefault
 from .models import Announcement, MaintenanceRequest
 
 
@@ -10,4 +10,13 @@ class AnnouncementSerializer(HyperlinkedModelSerializer):
 class MaintenanceRequestSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = MaintenanceRequest
-        fields = '__all__'
+        fields = (
+            'url',
+            'description',
+            'permission_to_enter',
+            'photo',
+            'created_on',
+            'created_by',
+        )
+        def save(self):
+            created_by = CurrentUserDefault()

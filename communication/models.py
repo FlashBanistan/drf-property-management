@@ -10,6 +10,6 @@ class Announcement(models.Model):
 class MaintenanceRequest(models.Model):
     description = models.TextField()
     permission_to_enter = models.BooleanField()
-    # photos = models.ImageField()
+    photo = models.FileField(null=True, blank=True, upload_to='maintenance_photos/')
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(Tenant)

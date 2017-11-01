@@ -19,8 +19,14 @@ class AnnouncementViewSet(viewsets.ModelViewSet):
 class MaintenanceRequestViewSet(viewsets.ModelViewSet):
     queryset = MaintenanceRequest.objects.all()
     serializer_class = MaintenanceRequestSerializer
-    filter_fields = '__all__'
-    ordering_fields = '__all__'
+    filter_fields = (
+        'description', 'permission_to_enter',
+        'created_on', 'created_by'
+    )
+    ordering_fields = (
+        'description', 'permission_to_enter',
+        'created_on', 'created_by'
+    )
     search_fields = (
         'created_on'
     )
