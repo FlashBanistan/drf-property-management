@@ -10,6 +10,7 @@ class AnnouncementSerializer(HyperlinkedModelSerializer):
 class MaintenanceRequestSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = MaintenanceRequest
+        created_by = CurrentUserDefault()
         fields = (
             'url',
             'description',
@@ -18,5 +19,5 @@ class MaintenanceRequestSerializer(HyperlinkedModelSerializer):
             'created_on',
             'created_by',
         )
-        def save(self):
-            created_by = CurrentUserDefault()
+        # def save(self):
+        #     created_by = CurrentUserDefault()
