@@ -13,7 +13,7 @@ class LeaseListSerializer(HyperlinkedModelSerializer):
             'end_date',
             # 'complex',
             'unit',
-            'tenant_set'
+            'tenants'
         ]
 
 
@@ -28,5 +28,5 @@ class LeaseDetailSerializer(HyperlinkedModelSerializer):
             'end_date',
             # 'complex',
             'unit',
-            'tenant_set' 
+            'tenants' 
         ]
