@@ -5,7 +5,6 @@ from .models import Tenant, AuthUser
 class AuthUserSerializer(HyperlinkedModelSerializer):
     email = EmailField(default=None)
     confirm_password = CharField(write_only=True, default=None)
-    password = CharField(default=None)
     class Meta:
         model = AuthUser
         fields = [
