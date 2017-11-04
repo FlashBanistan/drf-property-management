@@ -61,6 +61,6 @@ class UnitSerializer(HyperlinkedModelSerializer):
         fields = [
             'url', 'address', 'city', 'state',
             'zip_code', 'unit_number', 'sq_ft',
-            'bedrooms', 'baths', 'Complex','building',
+            'bedrooms', 'baths', 'complex','building',
             'tenants',
         ]
