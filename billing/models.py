@@ -37,12 +37,26 @@ class Payment(models.Model):
     lease = models.ForeignKey(Lease, on_delete=models.PROTECT)
 
 class Charge(models.Model):
+    CHARGE_STATUS_CHOICES = (
+        ('created', 'Created'),
+        ('processed', 'Processed'),
+        ('charged', 'Charged'),
+        ('cancelled', 'Cancelled'),
+        ('waived', 'Waived'),
+        ('paid_in_full', 'Paid In Full'),
+        ('paid_in_part', 'Paid In Part'),
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
-    total_amount = models.DecimalField(max_digits=5, decimal_places=2)
-    date_due = models.DateField()
-    created_on = models.DateField(auto_now_add=True)
+    total_amount = models.DecimalField(max_digits=6, decimal_places=2)
+    charge_status = models.CharField(choices=CHARGE_STATUS_CHOICES, max_length=12)
+    date_created = models.DateField(auto_now_add=True)
+    date_processed = models.DateField(null=True, blank=True)
+    date_charged = models.DateField(null=True, blank=True)
+    date_due = models.DateField(null=True, blank=True)
+    paid_in_full_on = models.DateField(null=True, blank=True)
     # Relationships
     lease = models.ForeignKey(Lease, on_delete=models.PROTECT)
     payments = models.ForeignKey(Payment, on_delete=models.PROTECT, related_name="charges", null=True, blank=True)
