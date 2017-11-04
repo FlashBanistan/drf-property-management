@@ -11,7 +11,7 @@ class LeaseListSerializer(HyperlinkedModelSerializer):
             'url',
             'start_date',
             'end_date',
-            'property_owner',
+            # 'complex',
             'unit',
             'tenant_set'
         ]
