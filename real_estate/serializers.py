@@ -42,10 +42,9 @@ class BuildingSerializer(HyperlinkedModelSerializer):
 class BuildingDetailSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Building
-        list_serializer_class = BuildingBulkCreateSerializer
         fields = (
             'url', 'name', 'address', 'city',
-            'state', 'zip_code', 'Complex',
+            'state', 'zip_code', 'complex',
             'tenants',
         )
 

@@ -62,7 +62,7 @@ class TenantDetailSerializer(HyperlinkedModelSerializer):
             'ssn',
             'lease',
             'auth',
-            'property',
+            'complex',
             'building',
             'unit',
         ]

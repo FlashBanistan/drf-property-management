@@ -74,7 +74,7 @@ class Tenant(models.Model):
     # Relationships:
     auth = models.OneToOneField(AuthUser, null=True, blank=True, default=None)
     lease = models.ForeignKey('legal.Lease', null=True, blank=True, related_name='tenants')
-    property = models.ForeignKey('real_estate.Complex', null=True, blank=True, default=None, related_name='tenants')
+    complex = models.ForeignKey('real_estate.Complex', null=True, blank=True, default=None, related_name='tenants')
     building = models.ForeignKey('real_estate.Building', null=True, blank=True, default=None, related_name='tenants')
     unit = models.ForeignKey('real_estate.Unit', null=True, blank=True, default=None, related_name='tenants')
 
