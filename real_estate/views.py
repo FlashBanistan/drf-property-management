@@ -3,19 +3,26 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from .serializers import BuildingSerializer, BuildingDetailSerializer, UnitSerializer, UnitBulkCreateSerializer, ComplexSerializer
+from .serializers import BuildingSerializer, BuildingDetailSerializer, UnitSerializer, UnitBulkCreateSerializer, ComplexSerializer, ComplexDetailSerializer
 from .models import Complex, Building, Unit
 
 
 class ComplexViewSet(viewsets.ModelViewSet):
     queryset = Complex.objects.all()
-    serializer_class = ComplexSerializer
+    # serializer_class = ComplexSerializer
     filter_fields = '__all__'
     ordering_fields = '__all__'
     search_fields = (
         'id',
         'name'
     )
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ComplexSerializer
+        if self.action == 'retrieve':
+            return ComplexDetailSerializer
+        return ComplexSerializer # Add create/destroy/update.
 
     @list_route(methods=['post'])
     def bulk_create(self, request):
@@ -38,7 +45,9 @@ class BuildingViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return BuildingSerializer
-        if self.action == 'detail':
+        if self.action == 'retrieve':
+            return BuildingDetailSerializer
+        if self.action == 'update':
             return BuildingDetailSerializer
         return BuildingSerializer # Add create/destroy/update.
 

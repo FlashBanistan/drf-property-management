@@ -36,7 +36,7 @@ class BuildingSerializer(HyperlinkedModelSerializer):
         list_serializer_class = BuildingBulkCreateSerializer
         fields = (
             'url', 'name', 'address', 'city',
-            'state', 'zip_code'
+            'state', 'zip_code',
         )
 
 class BuildingDetailSerializer(HyperlinkedModelSerializer):
