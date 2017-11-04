@@ -1,8 +1,8 @@
 from django.db import models
-from authentication.models import Tenant
 from property_management.validators.phone_number import validate_phone_number
 
-class Property(models.Model):
+class Complex(models.Model):
+    """ Reverse Relationship Fields(buildings, units, tenants) """
     # Identification details:
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=11, validators=[validate_phone_number])
@@ -12,7 +12,6 @@ class Property(models.Model):
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10)
     # Relationships:
-    # tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
     # Other details:
     created_on = models.DateField(auto_now_add=True)
 
@@ -20,24 +19,25 @@ class Property(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Properties"
+        verbose_name_plural = "Complexes"
 
 
 class Building(models.Model):
+    """ Reverse Relationship Fields(units, tenants) """
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10)
     # Relationships:
-    property = models.ForeignKey(Property, null=True, blank=True, on_delete=models.CASCADE)
-    tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
+    complex = models.ForeignKey(Complex, null=True, blank=True, on_delete=models.CASCADE, related_name='buildings')
 
     def __str__(self):
         return self.name
 
 
 class Unit(models.Model):
+    """ Reverse Relationship Fields(tenants) """
     # Location details:
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
@@ -49,9 +49,8 @@ class Unit(models.Model):
     bedrooms = models.IntegerField(null=True, blank=True)
     baths = models.FloatField(null=True, blank=True)
     # Relationships:
-    property = models.ForeignKey(Property, null=True, blank=True, on_delete=models.CASCADE)
-    building = models.ForeignKey(Building, null=True, blank=True, on_delete=models.SET_NULL)
-    # tenants = models.ForeignKey(Tenant, null=True, blank=True, on_delete=models.SET_NULL)
+    complex = models.ForeignKey(Complex, null=True, blank=True, on_delete=models.CASCADE, related_name='units')
+    building = models.ForeignKey(Building, null=True, blank=True, on_delete=models.SET_NULL, related_name='units')
 
     def __str__(self):
         return 'Unit ' + self.unit_number

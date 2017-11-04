@@ -56,10 +56,14 @@ class TenantDetailSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Tenant
         fields = [
+            'url',
             'first_name',
             'last_name',
             'phone_number',
             'ssn',
             'lease',
             'auth',
+            'property',
+            'building',
+            'unit',
         ]

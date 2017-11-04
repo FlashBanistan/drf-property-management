@@ -1,5 +1,5 @@
 from django.db import models
-from authentication.models import Tenant
+from users.models import Tenant
 
 
 class Announcement(models.Model):

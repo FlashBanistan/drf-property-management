@@ -6,7 +6,7 @@ class ChargeSerializer(HyperlinkedModelSerializer):
         model = Charge
         fields = '__all__'
 
-class PaymentSerializer(HyperlinkedModelSerializer):
+class PaymentListSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Payment
         fields = '__all__'

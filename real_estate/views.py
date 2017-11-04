@@ -3,13 +3,13 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from .serializers import BuildingSerializer, UnitSerializer, UnitBulkCreateSerializer, PropertySerializer
-from .models import Property, Building, Unit
+from .serializers import BuildingSerializer, UnitSerializer, UnitBulkCreateSerializer, ComplexSerializer
+from .models import Complex, Building, Unit
 
 
-class PropertyViewSet(viewsets.ModelViewSet):
-    queryset = Property.objects.all()
-    serializer_class = PropertySerializer
+class ComplexViewSet(viewsets.ModelViewSet):
+    queryset = Complex.objects.all()
+    serializer_class = ComplexSerializer
     filter_fields = '__all__'
     ordering_fields = '__all__'
     search_fields = (

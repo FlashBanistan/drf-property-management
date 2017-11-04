@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.admin import ModelAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from authentication.models import Tenant, AuthUser
+from users.models import Tenant, AuthUser
 
 """
 GENERIC USER

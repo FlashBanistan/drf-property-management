@@ -1,13 +1,12 @@
 from django.db import models
-from properties.models import Property, Unit
 
 
 class Lease(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     # Relationships:
-    property_owner = models.ForeignKey(Property)
-    unit = models.OneToOneField(Unit)
+    # complex = models.ForeignKey('real_estate.Complex')
+    unit = models.OneToOneField('real_estate.Unit')
 
     def __str__(self):
         return self.unit.address + ' ' + self.unit.city + ' ' + self.unit.state + ' #' + self.unit.unit_number

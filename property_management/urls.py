@@ -20,9 +20,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework import routers
-from entities.views import ClientViewSet
-from properties.views import PropertyViewSet, BuildingViewSet, UnitViewSet
-from authentication.views import TenantViewSet, AuthUserViewSet
+from clients.views import ClientViewSet
+from real_estate.views import ComplexViewSet, BuildingViewSet, UnitViewSet
+from users.views import TenantViewSet, AuthUserViewSet
 from legal.views import LeaseViewSet
 from billing.views import ChargeViewSet, PaymentViewSet
 from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
@@ -30,7 +30,7 @@ from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
 
 router = routers.DefaultRouter()
 router.register(r'clients', ClientViewSet)
-router.register(r'properties', PropertyViewSet)
+router.register(r'properties', ComplexViewSet)
 router.register(r'buildings', BuildingViewSet)
 router.register(r'units', UnitViewSet)
 router.register(r'users', AuthUserViewSet)
@@ -43,7 +43,7 @@ router.register(r'maintenance', MaintenanceRequestViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/auth/', include('authentication.urls', namespace='auth-api') ),
+    url(r'^api/auth/', include('users.urls', namespace='auth-api') ),
     url(r'^api/auth/get_token/', obtain_jwt_token),
     url(r'^api/', include(router.urls) ),
 ]
