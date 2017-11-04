@@ -18,7 +18,7 @@ class LeaseListSerializer(HyperlinkedModelSerializer):
 
 
 class LeaseDetailSerializer(HyperlinkedModelSerializer):
-    tenant_set = TenantListSerializer(many=True)
+    tenants = TenantListSerializer(many=True)
     # complex = ComplexSerializer()
     unit = UnitSerializer()
     class Meta:
