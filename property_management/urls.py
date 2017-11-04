@@ -30,7 +30,7 @@ from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
 
 router = routers.DefaultRouter()
 router.register(r'clients', ClientViewSet)
-router.register(r'properties', ComplexViewSet)
+router.register(r'complexes', ComplexViewSet)
 router.register(r'buildings', BuildingViewSet)
 router.register(r'units', UnitViewSet)
 router.register(r'users', AuthUserViewSet)
