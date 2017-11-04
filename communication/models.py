@@ -6,6 +6,7 @@ class Announcement(models.Model):
     title = models.CharField(max_length=255)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
+    # created_by = models.ForeignKey(Employee) // add this after an Employee model has been created.
 
 class MaintenanceRequest(models.Model):
     description = models.TextField()
