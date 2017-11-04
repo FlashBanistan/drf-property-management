@@ -1,4 +1,4 @@
-from rest_framework.serializers import HyperlinkedModelSerializer, CurrentUserDefault
+from rest_framework.serializers import HyperlinkedModelSerializer, CurrentUserDefault, BooleanField
 from .models import Announcement, MaintenanceRequest
 
 
