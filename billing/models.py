@@ -20,9 +20,7 @@ class Payment(models.Model):
     )
     PAYMENT_STATUS_CHOICES = (
         ('pending', 'Pending'),
-        ('paid', 'Paid'),
-        ('partial', 'Partial'),
-        ('past_due', 'Past Due'),
+        ('cleared', 'Cleared'),
         ('cancelled', 'Cancelled'),
         ('denied', 'Denied')
     )
