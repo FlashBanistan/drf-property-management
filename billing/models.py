@@ -36,6 +36,15 @@ class Payment(models.Model):
     paid_by = models.OneToOneField(Tenant)
     lease = models.ForeignKey(Lease, on_delete=models.PROTECT)
 
+"""
+A charge can be created at any point in time. After a charge has been created
+the next step is for it to be processed.  A processed charge means it has
+been reviewed for accuracy by the billing manager. After the charge has been
+processed it is then charged to the tenant who can then go in and make a
+payment/s. A tenant has until the due date to complete the payment. If
+tenant fails to pay in full by the date_due a late fee will be created.
+The late fee is another Charge instance.
+"""
 class Charge(models.Model):
     CHARGE_STATUS_CHOICES = (
         ('created', 'Created'),
