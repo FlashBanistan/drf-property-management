@@ -13,6 +13,53 @@ TODO: 1) Research whether or not 'tax' should be included in amount or
       4) Create 'Payment' model to track payments received from tenant.
 """
 
+"""
+An invoice is created at the beginning of every billing cycle (after the
+previous billing cycle invoice has been processed) and it's status is set
+to 'created'. Any charge that is created during the current
+billing cycle will be automatically added to the current billing cycle
+invoice. 
+"""
+class Invoice (models.Model):
+    INVOICE_STATUS_CHOICES = (
+        ('created', 'Created'),
+        ('processed', 'Processed'),
+        ('charged', 'Charged'),
+        ('cancelled', 'Cancelled'),
+        ('waived', 'Waived'),
+        ('paid_in_full', 'Paid In Full'),
+        ('paid_in_part', 'Paid In Part'),
+    )
+
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    description = models.TextField(null=True, blank=True)
+    status = models.CharField(choices=INVOICE_STATUS_CHOICES, max_length=12)
+    date_created = models.DateField(auto_now_add=True)
+    date_processed = models.DateField(null=True, blank=True)
+    date_charged = models.DateField(null=True, blank=True)
+    date_due = models.DateField(null=True, blank=True)
+    paid_in_full_on = models.DateField(null=True, blank=True)
+    # Relationships
+    lease = models.ForeignKey(Lease, on_delete=models.PROTECT)
+    # reverse relationship 'charges'
+    # reverse relationship 'payments'
+    @property
+    def total_charges(self):
+        charges = self.charges.all()
+        total = 0
+        for charge in charges:
+            total += charge.amount
+        return total
+
+    @property
+    def total_payments(self):
+        payments = self.payments.all()
+        total = 0
+        for payment in payments:
+            total += payment.amount
+        return total
+
+
 class Payment(models.Model):
     PAYMENT_TYPE_CHOICES = (
         ('card', 'Credit/debit'),
@@ -32,38 +79,17 @@ class Payment(models.Model):
     payment_status = models.CharField(choices=PAYMENT_STATUS_CHOICES, max_length=9)
     # Relationships
     paid_by = models.OneToOneField(Tenant)
-    lease = models.ForeignKey(Lease, on_delete=models.PROTECT)
+    invoice = models.ForeignKey(Invoice, on_delete=models.PROTECT, related_name='payments')
 
 """
-A charge can be created at any point in time. After a charge has been created
-the next step is for it to be processed.  A processed charge means it has
-been reviewed for accuracy by the billing manager. After the charge has been
-processed it is then charged to the tenant who can then go in and make a
-payment/s. A tenant has until the due date to complete the payment. If
-tenant fails to pay in full by the date_due a late fee will be created.
-The late fee is another Charge instance.
+A charge can be created at any point in time. A charge is automatically
+added to the current billing cycle's lease.
 """
 class Charge(models.Model):
-    CHARGE_STATUS_CHOICES = (
-        ('created', 'Created'),
-        ('processed', 'Processed'),
-        ('charged', 'Charged'),
-        ('cancelled', 'Cancelled'),
-        ('waived', 'Waived'),
-        ('paid_in_full', 'Paid In Full'),
-        ('paid_in_part', 'Paid In Part'),
-    )
-
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
-    total_amount = models.DecimalField(max_digits=6, decimal_places=2)
-    charge_status = models.CharField(choices=CHARGE_STATUS_CHOICES, max_length=12)
+    amount = models.DecimalField(max_digits=6, decimal_places=2)
     date_created = models.DateField(auto_now_add=True)
-    date_processed = models.DateField(null=True, blank=True)
-    date_charged = models.DateField(null=True, blank=True)
-    date_due = models.DateField(null=True, blank=True)
-    paid_in_full_on = models.DateField(null=True, blank=True)
     # Relationships
-    lease = models.ForeignKey(Lease, on_delete=models.PROTECT)
-    payments = models.ForeignKey(Payment, on_delete=models.PROTECT, related_name="charges", null=True, blank=True)
+    invoice = models.ForeignKey(Invoice, on_delete=models.PROTECT, related_name='charges')

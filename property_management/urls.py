@@ -24,7 +24,7 @@ from clients.views import ClientViewSet
 from real_estate.views import ComplexViewSet, BuildingViewSet, UnitViewSet
 from users.views import TenantViewSet, AuthUserViewSet
 from legal.views import LeaseViewSet
-from billing.views import ChargeViewSet, PaymentViewSet
+from billing.views import ChargeViewSet, PaymentViewSet, InvoiceViewSet
 from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
 
 
@@ -38,6 +38,7 @@ router.register(r'tenants', TenantViewSet)
 router.register(r'leases', LeaseViewSet)
 router.register(r'charges', ChargeViewSet)
 router.register(r'payments', PaymentViewSet)
+router.register(r'invoices', InvoiceViewSet)
 router.register(r'announcements', AnnouncementViewSet)
 router.register(r'maintenance', MaintenanceRequestViewSet)
 
