@@ -1,12 +1,11 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
-from .serializers import ChargeListSerializer, PaymentListSerializer, InvoiceListSerializer, InvoiceDetailSerializer
+from .serializers import *
 from .models import Charge, Payment, Invoice
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
-    # serializer_class = PaymentListSerializer
     filter_fields = '__all__'
     ordering_fields = '__all__'
     search_fields = (
@@ -16,9 +15,18 @@ class PaymentViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return PaymentListSerializer
-        if self.action =='retrieve':
+        if self.action == 'retrieve':
             return PaymentListSerializer
-        return PaymentListSerializer # Add create/destroy/update.
+        if self.action == 'create':
+            return PaymentCreateSerializer
+        if self.action == 'update':
+            return PaymentUpdateSerializer
+        return PaymentListSerializer # Add destroy
+    
+    # Modify request to include fields not sent back from frontend.
+    def perform_create(self, serializer):
+        serializer.save(paid_by=self.request.user.tenant)
+            
 
 class ChargeViewSet(viewsets.ModelViewSet):
     queryset = Charge.objects.all()

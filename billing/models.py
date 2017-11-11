@@ -53,7 +53,7 @@ class Invoice (models.Model):
 
     @property
     def total_payments(self):
-        payments = self.payments.all()
+        payments = self.payments.filter(status='cleared')
         total = 0
         for payment in payments:
             total += payment.amount
@@ -76,9 +76,9 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=5, decimal_places=2)
     created_on = models.DateField(auto_now_add=True)
     payment_type = models.CharField(choices=PAYMENT_TYPE_CHOICES, max_length=13)
-    payment_status = models.CharField(choices=PAYMENT_STATUS_CHOICES, max_length=9)
+    status = models.CharField(choices=PAYMENT_STATUS_CHOICES, max_length=9)
     # Relationships
-    paid_by = models.OneToOneField(Tenant)
+    paid_by = models.ForeignKey(Tenant)
     invoice = models.ForeignKey(Invoice, on_delete=models.PROTECT, related_name='payments')
 
 """
