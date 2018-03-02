@@ -42,9 +42,11 @@ router.register(r'invoices', InvoiceViewSet)
 router.register(r'announcements', AnnouncementViewSet)
 router.register(r'maintenance', MaintenanceRequestViewSet)
 
+app_name="property_management"
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/auth/', include('users.urls', namespace='auth-api') ),
+    url(r'^api/auth/', include(('users.urls','auth-api')) ),
     url(r'^api/auth/get_token/', obtain_jwt_token),
     url(r'^api/', include(router.urls) ),
 ]

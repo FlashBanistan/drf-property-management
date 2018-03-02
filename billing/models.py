@@ -78,7 +78,7 @@ class Payment(models.Model):
     payment_type = models.CharField(choices=PAYMENT_TYPE_CHOICES, max_length=13)
     status = models.CharField(choices=PAYMENT_STATUS_CHOICES, max_length=9)
     # Relationships
-    paid_by = models.ForeignKey(Tenant)
+    paid_by = models.ForeignKey(Tenant, on_delete=models.PROTECT)
     invoice = models.ForeignKey(Invoice, on_delete=models.PROTECT, related_name='payments')
 
 """

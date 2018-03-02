@@ -72,8 +72,8 @@ class Tenant(models.Model):
     phone_number = models.CharField(max_length=11, null=True, blank=True)
     ssn = models.CharField(max_length=11, null=True, blank=True)
     # Relationships:
-    auth = models.OneToOneField(AuthUser, null=True, blank=True, default=None)
-    lease = models.ForeignKey('legal.Lease', null=True, blank=True, related_name='tenants')
+    auth = models.OneToOneField(AuthUser, null=True, blank=True, default=None, on_delete=models.SET_NULL)
+    lease = models.ForeignKey('legal.Lease', null=True, blank=True, related_name='tenants', on_delete=models.SET_NULL)
     # complex = models.ForeignKey('real_estate.Complex', null=True, blank=True, default=None, related_name='tenants')
     # building = models.ForeignKey('real_estate.Building', null=True, blank=True, default=None, related_name='tenants')
     # unit = models.ForeignKey('real_estate.Unit', null=True, blank=True, default=None, related_name='tenants')
