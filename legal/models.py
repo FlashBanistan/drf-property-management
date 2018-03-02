@@ -6,7 +6,7 @@ class Lease(models.Model):
     end_date = models.DateField()
     # Relationships:
     # complex = models.ForeignKey('real_estate.Complex')
-    unit = models.OneToOneField('real_estate.Unit')
+    unit = models.OneToOneField('real_estate.Unit', null=True, blank=True)
 
     def __str__(self):
         return self.unit.address + ' ' + self.unit.city + ' ' + self.unit.state + ' #' + self.unit.unit_number

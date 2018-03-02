@@ -1,7 +1,7 @@
 from rest_framework.serializers import HyperlinkedModelSerializer
 from .models import Lease
 from users.serializers import TenantListSerializer
-from real_estate.serializers import ComplexSerializer, UnitSerializer
+# from real_estate.serializers import ComplexSerializer, UnitSerializer
 
 
 class LeaseListSerializer(HyperlinkedModelSerializer):
@@ -20,7 +20,7 @@ class LeaseListSerializer(HyperlinkedModelSerializer):
 class LeaseDetailSerializer(HyperlinkedModelSerializer):
     tenants = TenantListSerializer(many=True)
     # complex = ComplexSerializer()
-    unit = UnitSerializer()
+    # unit = UnitSerializer()
     class Meta:
         model = Lease
         fields = [

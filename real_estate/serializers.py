@@ -1,5 +1,7 @@
 from rest_framework.serializers import HyperlinkedModelSerializer, ListSerializer
 from .models import Complex, Building, Unit
+from legal.serializers import LeaseDetailSerializer
+
 
 class ComplexBulkCreateSerializer(ListSerializer):
     def create(self, validated_data):
@@ -55,6 +57,7 @@ class UnitBulkCreateSerializer(ListSerializer):
         return Unit.objects.bulk_create(units)
 
 class UnitSerializer(HyperlinkedModelSerializer):
+    lease = LeaseDetailSerializer(read_only=True)
     class Meta:
         model = Unit
         list_serializer_class = UnitBulkCreateSerializer
@@ -62,6 +65,6 @@ class UnitSerializer(HyperlinkedModelSerializer):
             'url', 'address', 'city', 'state',
             'zip_code', 'unit_number', 'sq_ft',
             'bedrooms', 'baths', 'complex','building',
-            'lease',
+            'lease'
             # 'tenants',
         ]
