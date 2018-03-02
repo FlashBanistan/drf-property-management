@@ -1,4 +1,4 @@
-from rest_framework.serializers import HyperlinkedModelSerializer, SerializerMethodField
+from rest_framework.serializers import HyperlinkedModelSerializer, SerializerMethodField, ValidationError, ReadOnlyField, CurrentUserDefault
 from .models import Charge, Payment, Invoice
 
 class PaymentListSerializer(HyperlinkedModelSerializer):
@@ -6,7 +6,7 @@ class PaymentListSerializer(HyperlinkedModelSerializer):
         model = Payment
         fields = (
             'url', 'amount', 'created_on', 'payment_type',
-            'payment_status', 'paid_by', 'invoice',
+            'status', 'paid_by', 'invoice',
         )
 
 class PaymentDetailSerializer(HyperlinkedModelSerializer):
@@ -14,8 +14,24 @@ class PaymentDetailSerializer(HyperlinkedModelSerializer):
         model = Payment
         fields = (
             'url', 'amount', 'created_on', 'payment_type',
-            'payment_status', 'paid_by', 'invoice',
+            'status', 'paid_by', 'invoice',
         )
+
+class PaymentUpdateSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = Payment
+        fields = (
+            'amount', 'payment_type',
+        )
+
+class PaymentCreateSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = Payment
+        paid_by = CurrentUserDefault()
+        fields = (
+            'amount', 'payment_type', 'invoice', 'paid_by'
+        )
+        read_only_fields = ('paid_by',)
 
 class ChargeListSerializer(HyperlinkedModelSerializer):
     class Meta:
