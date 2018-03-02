@@ -22,7 +22,8 @@ class ComplexDetailSerializer(HyperlinkedModelSerializer):
         fields = (
             'url', 'name', 'phone', 'email', 'address',
             'city', 'state', 'zip_code', 'buildings',
-            'units', 'tenants',
+            'units',
+            # 'tenants',
         )
 
 class BuildingBulkCreateSerializer(ListSerializer):
@@ -45,7 +46,7 @@ class BuildingDetailSerializer(HyperlinkedModelSerializer):
         fields = (
             'url', 'name', 'address', 'city',
             'state', 'zip_code', 'complex',
-            'tenants',
+            # 'tenants',
         )
 
 class UnitBulkCreateSerializer(ListSerializer):
@@ -61,5 +62,6 @@ class UnitSerializer(HyperlinkedModelSerializer):
             'url', 'address', 'city', 'state',
             'zip_code', 'unit_number', 'sq_ft',
             'bedrooms', 'baths', 'complex','building',
-            'tenants',
+            'lease',
+            # 'tenants',
         ]

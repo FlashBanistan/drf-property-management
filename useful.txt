@@ -5,9 +5,9 @@ python manage.py migrate_schemas (may need to fake migrations with --fake)
 
 OPEN SHELL w/ 'python manage.py shell'
 from clients.models import Client
-client = Client(domain_url='localhost', schema_name='public', name='public')
+client = Client(domain_url='aaronchesley.com', schema_name='public', name='public')
 client.save()
-client = Client(domain_url='gmc.localhost', schema_name='gmc_schema', name='GMC Properties')
+client = Client(domain_url='gmc.aaronchesley.com', schema_name='gmc_schema', name='GMC Properties')
 client.save()
 
 START A SHELL WITH SCHEMA SET
