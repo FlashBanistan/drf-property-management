@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^api/auth/', include(('users.urls','auth-api')) ),
     url(r'^api/auth/get_token/', obtain_jwt_token),
     url(r'^api/', include(router.urls) ),
+    url(r'^api-auth/', include('rest_framework.urls')),
 ]
 
 # Add these URLS in order for Django to be able to handle media files

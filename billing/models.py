@@ -66,14 +66,14 @@ class Payment(models.Model):
         ('ach', 'ACH (Bank transfer)'),
     )
     PAYMENT_STATUS_CHOICES = (
-        ('pending', 'Pending'),
+        # ('pending', 'Pending'),
         ('cleared', 'Cleared'),
         ('cancelled', 'Cancelled'),
         ('denied', 'Denied')
     )
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    amount = models.DecimalField(max_digits=5, decimal_places=2)
+    amount = models.DecimalField(max_digits=6, decimal_places=2)
     created_on = models.DateField(auto_now_add=True)
     payment_type = models.CharField(choices=PAYMENT_TYPE_CHOICES, max_length=13)
     status = models.CharField(choices=PAYMENT_STATUS_CHOICES, max_length=9)
