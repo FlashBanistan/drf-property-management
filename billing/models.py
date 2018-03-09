@@ -1,5 +1,6 @@
 from django.db import models
 from uuid import uuid4
+from datetime import datetime
 from legal.models import Lease
 from users.models import Tenant
 
@@ -79,7 +80,7 @@ class Payment(models.Model):
     status = models.CharField(choices=PAYMENT_STATUS_CHOICES, max_length=9)
     # Relationships
     paid_by = models.ForeignKey(Tenant, on_delete=models.PROTECT)
-    invoice = models.ForeignKey(Invoice, on_delete=models.PROTECT, related_name='payments')
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='payments')
 
 """
 A charge can be created at any point in time. A charge is automatically
@@ -92,4 +93,14 @@ class Charge(models.Model):
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     date_created = models.DateField(auto_now_add=True)
     # Relationships
-    invoice = models.ForeignKey(Invoice, on_delete=models.PROTECT, related_name='charges')
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, null=True, blank=True, related_name='charges')
+
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+
+# @receiver(post_save, sender=Payment)
+# def save_user_profile(sender, instance, **kwargs):
+#     print('Hello')
+#     if instance.invoice.total_payments == instance.invoice.total_charges:
+#         instance.invoice.paid_in_full_on = datetime.now()
+#         instance.invoice.save()

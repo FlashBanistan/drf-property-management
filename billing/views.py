@@ -30,7 +30,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
 class ChargeViewSet(viewsets.ModelViewSet):
     queryset = Charge.objects.all()
-    serializer_class = ChargeListSerializer
+    http_method_names = ['get', 'post', 'delete']
     filter_fields = '__all__'
     ordering_fields = '__all__'
     search_fields = (
@@ -38,6 +38,17 @@ class ChargeViewSet(viewsets.ModelViewSet):
         'date_charged', 'date_due', 'paid_in_full_on',
         'lease', 'payments',    
     )
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return ChargeCreateSerializer
+        if self.action == 'list':
+            return ChargeListSerializer
+        if self.action == 'retrieve':
+            return ChargeDetailSerializer
+        if self.action == 'destroy':
+            return ChargeDetailSerializer
+        return ChargeListSerializer
 
 class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
@@ -55,4 +66,6 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             return InvoiceListSerializer
         if self.action == 'retrieve':
             return InvoiceDetailSerializer
+        if self.action == 'create':
+            return InvoiceCreateSerializer
         return InvoiceListSerializer # Add create/destroy/update.
