@@ -53,13 +53,13 @@ class PaymentCreateSerializer(serializers.HyperlinkedModelSerializer):
     
     def validate(self, data):
         if data['status'] != 'cleared':
-            raise ValidationError("A payment must be set to 'cleared' at the time of creation.")
+            raise serializers.ValidationError("A payment must be set to 'cleared' at the time of creation.")
         if data['invoice'].status != 'charged':
-            raise ValidationError("The invoice must be charged before payments can be accepted for it.")
+            raise serializers.ValidationError("The invoice must be charged before payments can be accepted for it.")
         total_charges = data['invoice'].total_charges
         total_payments = data['invoice'].total_payments
         if data['amount'] > (total_charges - total_payments):
-            raise ValidationError('You cannot pay more than you owe.')
+            raise serializers.ValidationError('You cannot pay more than you owe.')
         return data
 
 class PaymentDestroySerializer(serializers.HyperlinkedModelSerializer):
@@ -163,7 +163,7 @@ class InvoiceCreateSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         charges = Charge.objects.filter(invoice=None)
         if not charges.exists():
-            raise ValidationError('There are no charges to assign to an invoice at this time.')
+            raise serializers.ValidationError('There are no charges to assign to an invoice at this time.')
         invoice = Invoice(**validated_data)
         invoice.save()
         for charge in charges:
@@ -176,13 +176,3 @@ class InvoiceUpdateSerializer(serializers.HyperlinkedModelSerializer):
 
 class InvoiceDestroySerializer(serializers.HyperlinkedModelSerializer):
     pass
-
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from datetime import datetime 
-
-@receiver(post_save, sender=Payment)
-def save_user_profile(sender, instance, **kwargs):
-    if instance.invoice.total_payments == instance.invoice.total_charges:
-        instance.invoice.paid_in_full_on = datetime.now()
-        instance.invoice.save()
