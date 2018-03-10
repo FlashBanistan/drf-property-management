@@ -14,13 +14,6 @@ TODO: 1) Research whether or not 'tax' should be included in amount or
       4) Create 'Payment' model to track payments received from tenant.
 """
 
-"""
-An invoice is created at the beginning of every billing cycle (after the
-previous billing cycle invoice has been processed) and it's status is set
-to 'created'. Any charge that is created during the current
-billing cycle will be automatically added to the current billing cycle
-invoice. 
-"""
 class Invoice (models.Model):
     INVOICE_STATUS_CHOICES = (
         ('created', 'Created'),
@@ -67,7 +60,6 @@ class Payment(models.Model):
         ('ach', 'ACH (Bank transfer)'),
     )
     PAYMENT_STATUS_CHOICES = (
-        # ('pending', 'Pending'),
         ('cleared', 'Cleared'),
         ('cancelled', 'Cancelled'),
         ('denied', 'Denied')
@@ -82,10 +74,7 @@ class Payment(models.Model):
     paid_by = models.ForeignKey(Tenant, on_delete=models.PROTECT)
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='payments')
 
-"""
-A charge can be created at any point in time. A charge is automatically
-added to the current billing cycle's lease.
-"""
+
 class Charge(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=255)
@@ -94,13 +83,3 @@ class Charge(models.Model):
     date_created = models.DateField(auto_now_add=True)
     # Relationships
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, null=True, blank=True, related_name='charges')
-
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
-
-# @receiver(post_save, sender=Payment)
-# def save_user_profile(sender, instance, **kwargs):
-#     print('Hello')
-#     if instance.invoice.total_payments == instance.invoice.total_charges:
-#         instance.invoice.paid_in_full_on = datetime.now()
-#         instance.invoice.save()

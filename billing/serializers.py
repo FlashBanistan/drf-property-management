@@ -113,6 +113,7 @@ class ChargeDestroySerializer(serializers.HyperlinkedModelSerializer):
 
 """"""""""""""""""""""" INVOICE SERIALIZERS """""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" LIST """
 class InvoiceListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Invoice
