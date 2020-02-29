@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.decorators import list_route
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import TenantListSerializer, TenantDetailSerializer, AuthUserSerializer
@@ -33,7 +33,7 @@ class TenantViewSet(viewsets.ModelViewSet):
             return TenantDetailSerializer
         return TenantListSerializer # Add create/destroy.
 
-    @list_route(methods=['post'])
+    @action(methods=["post"], detail=False)
     def bulk_create(self, request):
         serializer = self.get_serializer(data=request.data, many=True)
         if serializer.is_valid():

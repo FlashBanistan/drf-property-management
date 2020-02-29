@@ -1,7 +1,8 @@
 from django.db import models
 from property_management.validators.phone_number import validate_phone_number
+from property_management.models import CommonModel
 
-class Complex(models.Model):
+class Complex(CommonModel):
     """ Reverse Relationship Fields(buildings, units, tenants) """
     # Identification details:
     name = models.CharField(max_length=100)
@@ -12,8 +13,6 @@ class Complex(models.Model):
     state = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10)
     # Relationships:
-    # Other details:
-    created_on = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -22,7 +21,7 @@ class Complex(models.Model):
         verbose_name_plural = "Complexes"
 
 
-class Building(models.Model):
+class Building(CommonModel):
     """ Reverse Relationship Fields(units, tenants) """
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
@@ -36,7 +35,7 @@ class Building(models.Model):
         return self.name
 
 
-class Unit(models.Model):
+class Unit(CommonModel):
     """ Reverse Relationship Fields(tenants) """
     # Location details:
     address = models.CharField(max_length=100)

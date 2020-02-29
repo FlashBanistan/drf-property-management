@@ -1,8 +1,9 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager as DjBaseUserManager)
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager as DjBaseUserManager, PermissionsMixin)
 # from model_utils.managers import InheritanceManager
 from property_management.validators.phone_number import validate_phone_number
+from property_management.models import CommonModel
 
 
 class BaseUserManager(DjBaseUserManager):
@@ -30,13 +31,10 @@ class BaseUserManager(DjBaseUserManager):
         return u
 
 
-class AuthUser(AbstractBaseUser):
+class AuthUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, null=True, blank=True, default=None)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELD = USERNAME_FIELD
-    # is_superuser = False
-    # is_staff = False
-    # is_admin = False
     is_superuser = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -62,25 +60,35 @@ class AuthUser(AbstractBaseUser):
         return True
 
 
-class Tenant(models.Model):
-    """
-    User subtype with specific fields and properties
-    """
+class CommonUserModel(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    # phone_number = models.CharField(max_length=11, validators=[validate_phone_number], null=True, blank=True)
-    phone_number = models.CharField(max_length=11, null=True, blank=True)
+    dob = models.DateField()
+    class Meta:
+        abstract = True
+    
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
+
+
+class Tenant(CommonModel, CommonUserModel):
+    """
+    A tenant is legally responsible for the terms of the lease.
+    """
+    phone_number = models.CharField(max_length=11, validators=[validate_phone_number])
     ssn = models.CharField(max_length=11, null=True, blank=True)
     # Relationships:
-    auth = models.OneToOneField(AuthUser, null=True, blank=True, default=None, on_delete=models.SET_NULL)
-    lease = models.ForeignKey('legal.Lease', null=True, blank=True, related_name='tenants', on_delete=models.SET_NULL)
+    auth = models.OneToOneField(AuthUser, on_delete=models.CASCADE)
+    lease = models.ForeignKey('legal.Lease', related_name='tenants', on_delete=models.DO_NOTHING)
     # complex = models.ForeignKey('real_estate.Complex', null=True, blank=True, default=None, related_name='tenants')
     # building = models.ForeignKey('real_estate.Building', null=True, blank=True, default=None, related_name='tenants')
     # unit = models.ForeignKey('real_estate.Unit', null=True, blank=True, default=None, related_name='tenants')
 
-    def __str__(self):
-        if (self.first_name is None or self.last_name is None):
-            return ''
-        return self.first_name + ' ' + self.last_name
 
-
+class Occupant(CommonModel, CommonUserModel):
+    """
+    An occupant is anyone under the age of 18 and is NOT legally responsible for the lease.
+    """
+    lease = models.ForeignKey('legal.Lease', related_name='occupants', on_delete=models.DO_NOTHING)
+    class Meta:
+        pass

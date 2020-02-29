@@ -1,16 +1,14 @@
 from django.db import models
-from users.models import Tenant
+from property_management.models import CommonModel
 
 
-class Announcement(models.Model):
+class Announcement(CommonModel):
     title = models.CharField(max_length=255)
     body = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
     # created_by = models.ForeignKey(Employee) // add this after an Employee model has been created.
 
-class MaintenanceRequest(models.Model):
+class MaintenanceRequest(CommonModel):
     description = models.TextField()
     permission_to_enter = models.BooleanField()
     photo = models.FileField(null=True, blank=True, upload_to='maintenance_photos/')
-    created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(Tenant, on_delete=models.PROTECT)
+    created_by = models.ForeignKey('users.Tenant', on_delete=models.PROTECT)

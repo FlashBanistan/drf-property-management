@@ -3,6 +3,7 @@ from uuid import uuid4
 from datetime import datetime
 from legal.models import Lease
 from users.models import Tenant
+from property_management.models import CommonModel
 
 
 """
@@ -14,7 +15,7 @@ TODO: 1) Research whether or not 'tax' should be included in amount or
       4) Create 'Payment' model to track payments received from tenant.
 """
 
-class Invoice (models.Model):
+class Invoice (CommonModel):
     INVOICE_STATUS_CHOICES = (
         ('created', 'Created'),
         ('processed', 'Processed'),
@@ -25,10 +26,8 @@ class Invoice (models.Model):
         ('paid_in_part', 'Paid In Part'),
     )
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     description = models.TextField(null=True, blank=True)
     status = models.CharField(choices=INVOICE_STATUS_CHOICES, max_length=12)
-    date_created = models.DateField(auto_now_add=True)
     date_processed = models.DateField(null=True, blank=True)
     date_charged = models.DateField(null=True, blank=True)
     date_due = models.DateField(null=True, blank=True)
@@ -54,7 +53,7 @@ class Invoice (models.Model):
         return total
 
 
-class Payment(models.Model):
+class Payment(CommonModel):
     PAYMENT_TYPE_CHOICES = (
         ('card', 'Credit/debit'),
         ('ach', 'ACH (Bank transfer)'),
@@ -65,9 +64,7 @@ class Payment(models.Model):
         ('denied', 'Denied')
     )
 
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
-    created_on = models.DateField(auto_now_add=True)
     payment_type = models.CharField(choices=PAYMENT_TYPE_CHOICES, max_length=13)
     status = models.CharField(choices=PAYMENT_STATUS_CHOICES, max_length=9)
     # Relationships
@@ -75,11 +72,9 @@ class Payment(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='payments')
 
 
-class Charge(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+class Charge(CommonModel):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
-    date_created = models.DateField(auto_now_add=True)
     # Relationships
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, null=True, blank=True, related_name='charges')

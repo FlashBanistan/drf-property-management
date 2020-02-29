@@ -15,12 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from property_management.settings import shared
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
 from rest_framework import routers
-from clients.views import ClientViewSet
+from tenants.views import TenantViewSet
 from real_estate.views import ComplexViewSet, BuildingViewSet, UnitViewSet
 from users.views import TenantViewSet, AuthUserViewSet
 from legal.views import LeaseViewSet
@@ -29,7 +33,7 @@ from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r'clients', ClientViewSet)
+router.register(r'tenants', TenantViewSet)
 router.register(r'complexes', ComplexViewSet)
 router.register(r'buildings', BuildingViewSet)
 router.register(r'units', UnitViewSet)
@@ -45,15 +49,14 @@ router.register(r'maintenance', MaintenanceRequestViewSet)
 app_name="property_management"
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^api/auth/', include(('users.urls','auth-api')) ),
-    url(r'^api/auth/get_token/', obtain_jwt_token),
+    # url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls) ),
-    url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^api/auth/get_token/', TokenObtainPairView.as_view()),
+    url(r'^api/auth/refresh_token/', TokenRefreshView.as_view()),
+    url(r'^api/auth/verify_token/', TokenVerifyView.as_view()),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 # Add these URLS in order for Django to be able to handle media files
 urlpatterns += staticfiles_urlpatterns()
-urlpatterns += static(
-    shared.MEDIA_URL, document_root=shared.MEDIA_ROOT
-)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

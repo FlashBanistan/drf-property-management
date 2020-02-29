@@ -1,8 +1,8 @@
 from django.db import models
-from tenant_schemas.models import TenantMixin
 from property_management.validators.phone_number import validate_phone_number
+from property_management.models import CommonModel
 
-class Client(TenantMixin):
+class Tenant(CommonModel):
     # Identifaction details:
     name = models.CharField(max_length=100)
     owner = models.CharField(max_length=100)
@@ -13,11 +13,6 @@ class Client(TenantMixin):
     city = models.CharField(max_length=100, null=False, blank=False)
     state = models.CharField(max_length=100, null=False, blank=False)
     zip_code = models.CharField(max_length=10, null=False, blank=False)
-    # Other details:
-    created_on = models.DateField(auto_now_add=True)
-
-    # Default true, schema will be automatically created and synced when it is saved.
-    auto_create_schema = True
 
     def __str__(self):
         return self.name

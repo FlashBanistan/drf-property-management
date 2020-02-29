@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.decorators import list_route
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -24,7 +24,7 @@ class ComplexViewSet(viewsets.ModelViewSet):
             return ComplexDetailSerializer
         return ComplexSerializer # Add create/destroy/update.
 
-    @list_route(methods=['post'])
+    @action(methods=["post"], detail=False)
     def bulk_create(self, request):
         serializer = self.get_serializer(data=request.data, many=True)
         if serializer.is_valid():
@@ -51,7 +51,7 @@ class BuildingViewSet(viewsets.ModelViewSet):
             return BuildingDetailSerializer
         return BuildingSerializer # Add create/destroy/update.
 
-    @list_route(methods=['post'])
+    @action(methods=["post"], detail=False)
     def bulk_create(self, request):
         serializer = self.get_serializer(data=request.data, many=True)
         if serializer.is_valid():
@@ -76,7 +76,7 @@ class UnitViewSet(viewsets.ModelViewSet):
         'zip_code'
     )
 
-    @list_route(methods=['post'])
+    @action(methods=["post"], detail=False)
     def bulk_create(self, request):
         serializer = self.get_serializer(data=request.data, many=True)
         if serializer.is_valid():
