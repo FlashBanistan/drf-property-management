@@ -7,10 +7,11 @@ from .models import CommonModel
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 class CommonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Payment
+        model = CommonModel
         fields = (
             'url',
             'id',
             'date_created',
             'date_updated',
         )
+        abstract = True

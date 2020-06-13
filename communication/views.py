@@ -21,12 +21,12 @@ class MaintenanceRequestViewSet(viewsets.ModelViewSet):
     serializer_class = MaintenanceRequestSerializer
     filter_fields = (
         'description', 'permission_to_enter',
-        'created_on', 'created_by'
+        'date_created', 'created_by'
     )
     ordering_fields = (
         'description', 'permission_to_enter',
-        'created_on', 'created_by'
+        'date_created', 'created_by'
     )
     search_fields = (
-        'created_on'
+        'date_created'
     )

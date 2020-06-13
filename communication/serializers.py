@@ -1,5 +1,6 @@
 from rest_framework.serializers import HyperlinkedModelSerializer, CurrentUserDefault, BooleanField
 from .models import Announcement, MaintenanceRequest
+from property_management.serializers import CommonSerializer
 
 
 class AnnouncementSerializer(HyperlinkedModelSerializer):
@@ -7,7 +8,7 @@ class AnnouncementSerializer(HyperlinkedModelSerializer):
         model = Announcement
         fields = '__all__'
 
-class MaintenanceRequestSerializer(HyperlinkedModelSerializer):
+class MaintenanceRequestSerializer(CommonSerializer):
     class Meta:
         model = MaintenanceRequest
         created_by = CurrentUserDefault()
@@ -16,7 +17,7 @@ class MaintenanceRequestSerializer(HyperlinkedModelSerializer):
             'description',
             'permission_to_enter',
             'photo',
-            'created_on',
+            'date_created',
             'created_by',
         )
         # def save(self):
