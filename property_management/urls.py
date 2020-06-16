@@ -24,7 +24,7 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 from rest_framework import routers
-from tenants.views import TenantViewSet
+from clients.views import ClientViewSet
 from real_estate.views import ComplexViewSet, BuildingViewSet, UnitViewSet
 from users.views import TenantViewSet, AuthUserViewSet
 from legal.views import LeaseViewSet
@@ -33,7 +33,7 @@ from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r'tenants', TenantViewSet)
+router.register(r'clients', ClientViewSet)
 router.register(r'complexes', ComplexViewSet)
 router.register(r'buildings', BuildingViewSet)
 router.register(r'units', UnitViewSet)
