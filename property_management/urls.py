@@ -26,7 +26,7 @@ from rest_framework_simplejwt.views import (
 from rest_framework import routers
 from clients.views import ClientViewSet
 from real_estate.views import ComplexViewSet, BuildingViewSet, UnitViewSet
-from users.views import TenantViewSet, AuthUserViewSet
+from users.views import TenantViewSet, AuthUserViewSet, AdminViewSet
 from legal.views import LeaseViewSet
 from billing.views import ChargeViewSet, PaymentViewSet, InvoiceViewSet
 from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
@@ -37,7 +37,8 @@ router.register(r'clients', ClientViewSet)
 router.register(r'complexes', ComplexViewSet)
 router.register(r'buildings', BuildingViewSet)
 router.register(r'units', UnitViewSet)
-router.register(r'users', AuthUserViewSet)
+router.register(r'auth_users', AuthUserViewSet)
+router.register(r'admins', AdminViewSet)
 router.register(r'tenants', TenantViewSet)
 router.register(r'leases', LeaseViewSet)
 router.register(r'charges', ChargeViewSet)

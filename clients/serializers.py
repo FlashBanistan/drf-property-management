@@ -1,13 +1,13 @@
-from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework import serializers
 from .models import Client
 
 
-class ClientSerializer(HyperlinkedModelSerializer):
+class ClientSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Client
         fields = [
             'url',
             'name',
-            # 'email',
+            'email',
             # 'phone',
         ]

@@ -1,5 +1,5 @@
 from rest_framework.serializers import ValidationError, CharField, HyperlinkedModelSerializer, HyperlinkedRelatedField, ListSerializer, EmailField
-from .models import Tenant, AuthUser
+from .models import Tenant, AuthUser, Admin
 
 
 class AuthUserSerializer(HyperlinkedModelSerializer):
@@ -28,6 +28,15 @@ class AuthUserSerializer(HyperlinkedModelSerializer):
         return auth_user
 
 
+class AdminSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = Admin
+        fields = [
+            'url',
+            'email',
+        ]
+
+
 class TenantBulkCreateSerializer(ListSerializer):
     def create(self, validated_data):
         tenants = [Tenant(**tenant) for tenant in validated_data]
@@ -43,10 +52,10 @@ class TenantListSerializer(HyperlinkedModelSerializer):
             'url',
             'first_name',
             'last_name',
+            'dob',
             # 'phone_number',
             # 'ssn',
-            'lease',
-            'auth',
+            # 'lease',
         ]
 
 
@@ -60,8 +69,7 @@ class TenantDetailSerializer(HyperlinkedModelSerializer):
             'last_name',
             'phone_number',
             'ssn',
-            'lease',
-            'auth',
+            # 'lease',
             # 'complex',
             # 'building',
             # 'unit',
