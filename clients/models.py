@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 
+
 class Client(models.Model):
     # Identifaction details:
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -19,6 +20,7 @@ class Client(models.Model):
 
 
 class ClientAwareModel(models.Model):
-    client = models.ForeignKey('clients.Client', on_delete=models.CASCADE)
+    client = models.ForeignKey("clients.Client", on_delete=models.CASCADE, null=True)
+
     class Meta:
         abstract = True

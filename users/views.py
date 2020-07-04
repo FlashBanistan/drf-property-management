@@ -22,7 +22,7 @@ class AdminViewSet(ClientAwareViewSet):
     serializer_class = AdminSerializer
 
 
-class TenantViewSet(viewsets.ModelViewSet):
+class TenantViewSet(ClientAwareViewSet):
     queryset = Tenant.objects.all()
     # serializer_class = TenantListSerializer
     filter_fields = "__all__"

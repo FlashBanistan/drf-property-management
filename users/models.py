@@ -107,7 +107,7 @@ class Tenant(CommonModel, CommonUserModel, ClientAwareModel):
 
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=11, validators=[validate_phone_number])
-    ssn = models.CharField(max_length=11, null=True, blank=True)
+    ssn = models.CharField(max_length=11, blank=True)
     # Relationships:
     # lease = models.ForeignKey('legal.Lease', related_name='tenants', on_delete=models.DO_NOTHING)
     # complex = models.ForeignKey('real_estate.Complex', null=True, blank=True, default=None, related_name='tenants')
