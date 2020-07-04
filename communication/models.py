@@ -13,5 +13,5 @@ class MaintenanceRequest(CommonModel, ClientAwareModel):
     description = models.TextField()
     permission_to_enter = models.BooleanField()
     photo = models.FileField(null=True, blank=True, upload_to="maintenance_photos/")
-    created_by = models.ForeignKey("users.AuthUser", on_delete=models.PROTECT)
+    created_by = models.ForeignKey("users.User", on_delete=models.PROTECT)
 

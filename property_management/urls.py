@@ -26,36 +26,34 @@ from rest_framework_simplejwt.views import (
 from rest_framework import routers
 from clients.views import ClientViewSet
 from real_estate.views import ComplexViewSet, BuildingViewSet, UnitViewSet
-from users.views import TenantViewSet, AuthUserViewSet, AdminViewSet
+from users.views import UserViewSet
 from legal.views import LeaseViewSet
 from billing.views import ChargeViewSet, PaymentViewSet, InvoiceViewSet
 from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r'clients', ClientViewSet)
-router.register(r'complexes', ComplexViewSet)
-router.register(r'buildings', BuildingViewSet)
-router.register(r'units', UnitViewSet)
-router.register(r'auth_users', AuthUserViewSet)
-router.register(r'admins', AdminViewSet)
-router.register(r'tenants', TenantViewSet)
-router.register(r'leases', LeaseViewSet)
-router.register(r'charges', ChargeViewSet)
-router.register(r'payments', PaymentViewSet)
-router.register(r'invoices', InvoiceViewSet)
-router.register(r'announcements', AnnouncementViewSet)
-router.register(r'maintenance', MaintenanceRequestViewSet)
+router.register(r"clients", ClientViewSet)
+router.register(r"complexes", ComplexViewSet)
+router.register(r"buildings", BuildingViewSet)
+router.register(r"units", UnitViewSet)
+router.register(r"users", UserViewSet)
+router.register(r"leases", LeaseViewSet)
+router.register(r"charges", ChargeViewSet)
+router.register(r"payments", PaymentViewSet)
+router.register(r"invoices", InvoiceViewSet)
+router.register(r"announcements", AnnouncementViewSet)
+router.register(r"maintenance", MaintenanceRequestViewSet)
 
-app_name="property_management"
+app_name = "property_management"
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(router.urls) ),
-    url(r'^api/auth/get_token/', TokenObtainPairView.as_view()),
-    url(r'^api/auth/refresh_token/', TokenRefreshView.as_view()),
-    url(r'^api/auth/verify_token/', TokenVerifyView.as_view()),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r"^api/", include(router.urls)),
+    url(r"^api/auth/get_token/", TokenObtainPairView.as_view()),
+    url(r"^api/auth/refresh_token/", TokenRefreshView.as_view()),
+    url(r"^api/auth/verify_token/", TokenVerifyView.as_view()),
+    url(r"^api-auth/", include("rest_framework.urls", namespace="rest_framework")),
 ]
 
 # Add these URLS in order for Django to be able to handle media files

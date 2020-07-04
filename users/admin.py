@@ -5,24 +5,27 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.admin import ModelAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from users.models import Tenant, AuthUser
+from users.models import User
 
 """
 GENERIC USER
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-class AuthUserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+""" """""" """""" """""" """""" """""" """""" """""" """""" """""" """"""
+
+
+class UserCreationForm(forms.ModelForm):
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label="Password confirmation", widget=forms.PasswordInput
+    )
 
     class Meta:
-        model = AuthUser
+        model = User
         fields = (
-            'email',
-            'password1',
-            'password2',
-            'is_superuser',
-            'is_admin',
-            'is_staff',
+            "email",
+            "password1",
+            "password2",
+            "is_superuser",
+            "is_admin",
         )
 
     def clean_password2(self):
@@ -35,28 +38,23 @@ class AuthUserCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         # Save the provided password in hashed format
-        user = super(AuthUserCreationForm, self).save(commit=False)
+        user = super(UserCreationForm, self).save(commit=False)
         if self.cleaned_data["password1"]:
             user.set_password(self.cleaned_data["password1"])
-        if (user.email == 'None'):
+        if user.email == "None":
             user.email = None
         if commit:
             user.save()
         return user
 
-class AuthUserChangeForm(forms.ModelForm):
+
+class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
     email = forms.EmailField()
 
     class Meta:
-        model = AuthUser
-        fields = (
-            'email',
-            'password',
-            'is_superuser',
-            'is_admin',
-            'is_staff'
-        )
+        model = User
+        fields = ("email", "password", "is_superuser", "is_admin")
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -65,20 +63,36 @@ class AuthUserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
-class AuthUserAdmin(ModelAdmin):
-    form = AuthUserChangeForm
-    add_form = AuthUserCreationForm
-    empty_value_display = 'unknown'
+class UserAdmin(ModelAdmin):
+    form = UserChangeForm
+    add_form = UserCreationForm
+    empty_value_display = "unknown"
 
-    list_display = ('email', 'is_superuser', 'is_admin', 'is_staff', )
-    list_filter = ('is_superuser', 'is_admin', 'is_staff',)
+    list_display = (
+        "email",
+        "is_superuser",
+        "is_admin",
+    )
+    list_filter = (
+        "is_superuser",
+        "is_admin",
+    )
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'is_superuser', 'is_admin', 'is_staff')}),
+        (None, {"fields": ("email", "password", "is_superuser", "is_admin")},),
     )
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'is_superuser', 'is_admin', 'is_staff')}
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "email",
+                    "password1",
+                    "password2",
+                    "is_superuser",
+                    "is_admin",
+                ),
+            },
         ),
     )
     # search_fields = ('email',)
@@ -88,10 +102,9 @@ class AuthUserAdmin(ModelAdmin):
 
 """
 NOW REGISTER THEM
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" """""" """""" """""" """""" """""" """""" """""" """""" """""" """""" """""" ""
 # Now register the new UserAdmin...
-admin.site.register(AuthUser, AuthUserAdmin)
-admin.site.register(Tenant)
+admin.site.register(User, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)

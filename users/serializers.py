@@ -6,72 +6,50 @@ from rest_framework.serializers import (
     ListSerializer,
     EmailField,
 )
-from .models import Tenant, AuthUser, Admin
+from .models import User
 
 
-class AuthUserSerializer(HyperlinkedModelSerializer):
+class UserReadSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "url",
+            "display_name",
+            "email",
+            "is_admin",
+            "is_tenant",
+        ]
+
+
+class UserBulkCreateSerializer(ListSerializer):
+    def create(self, validated_data):
+        users = [User(**user) for user in validated_data]
+        return User.objects.bulk_create(users)
+
+
+class UserWriteSerializer(HyperlinkedModelSerializer):
     email = EmailField(default=None)
     confirm_password = CharField(write_only=True, default=None)
 
     class Meta:
-        model = AuthUser
-        fields = ["url", "email", "password", "confirm_password"]
+        model = User
+        list_serializer_class = UserBulkCreateSerializer
+        fields = [
+            "url",
+            "email",
+            "display_name",
+            "is_admin",
+            "is_tenant",
+            "password",
+            "confirm_password",
+        ]
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        auth_user = AuthUser(email=validated_data["email"],)
+        user = User(email=validated_data["email"],)
         if validated_data["password"] != validated_data["confirm_password"]:
             raise ValidationError("Passwords do no match.")
-        auth_user.set_password(validated_data["password"])
-        auth_user.save()
-        return auth_user
+        user.set_password(validated_data["password"])
+        user.save()
+        return user
 
-
-class AdminSerializer(HyperlinkedModelSerializer):
-    class Meta:
-        model = Admin
-        fields = [
-            "url",
-            "email",
-        ]
-
-
-class TenantBulkCreateSerializer(ListSerializer):
-    def create(self, validated_data):
-        tenants = [Tenant(**tenant) for tenant in validated_data]
-        return Tenant.objects.bulk_create(tenants)
-
-
-class TenantListSerializer(HyperlinkedModelSerializer):
-    # auth = AuthUserSerializer(required=False, allow_null=True)
-    class Meta:
-        model = Tenant
-        list_serializer_class = TenantBulkCreateSerializer
-        fields = [
-            "url",
-            "first_name",
-            "last_name",
-            "email",
-            "phone_number",
-            "ssn",
-            "dob",
-            # 'lease',
-        ]
-
-
-class TenantDetailSerializer(HyperlinkedModelSerializer):
-    # auth = AuthUserSerializer(required=False, allow_null=True)
-    class Meta:
-        model = Tenant
-        fields = [
-            "url",
-            "first_name",
-            "last_name",
-            "email",
-            "phone_number",
-            "ssn",
-            # 'lease',
-            # 'complex',
-            # 'building',
-            # 'unit',
-        ]

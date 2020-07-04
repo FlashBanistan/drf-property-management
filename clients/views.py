@@ -1,10 +1,13 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import user_passes_test
 from .models import Client
 from .serializers import ClientSerializer
 
 
+@method_decorator(user_passes_test(lambda u: u.is_superuser), name="dispatch")
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer

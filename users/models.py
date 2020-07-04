@@ -22,17 +22,25 @@ class BaseUserManager(DjBaseUserManager):
     def create_user(self, email=None, password=None, client=None, **extra_fields):
         now = timezone.now()
         email = BaseUserManager.normalize_email(email)
-        u = AuthUser(
+        u = User(
             email=email,
             client=client,
             is_superuser=False,
             is_admin=False,
-            is_staff=False,
+            is_tenant=False,
             last_login=now,
             **extra_fields
         )
         u.set_password(password)
         u.save(using=self._db)
+        return u
+
+    def create_tenant_user(
+        self, email=None, password=None, client=None, **extra_fields
+    ):
+        u = self.create_user(email, password, client, **extra_fields)
+        u.is_tenant = True
+        u.save()
         return u
 
     def create_admin_user(self, email=None, password=None, client=None, **extra_fields):
@@ -50,38 +58,25 @@ class BaseUserManager(DjBaseUserManager):
         u = self.create_user(email, password, **extra_fields)
         u.is_superuser = True
         u.is_admin = True
-        u.is_staff = True
+        u.is_tenant = True
         u.save()
         return u
 
 
-class AuthUser(AbstractBaseUser, PermissionsMixin, ClientAwareModel):
+class User(AbstractBaseUser, PermissionsMixin, ClientAwareModel):
     email = models.EmailField(unique=True, null=True, blank=True, default=None)
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELD = USERNAME_FIELD
+    display_name = models.CharField(blank=True, max_length=100)
     is_superuser = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    is_tenant = models.BooleanField(default=False)
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELD = USERNAME_FIELD
     objects = BaseUserManager()
 
     def __str__(self):
         if self.email is None:
             return ""
         return self.email
-
-    def get_short_name(self):
-        # The user is identified by their email address
-        return self.email
-
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app 'app_label'?"
-        # Simplest possible answer: yes, always
-        return True
 
 
 class CommonUserModel(models.Model):
@@ -94,25 +89,6 @@ class CommonUserModel(models.Model):
 
     def __str__(self):
         return self.first_name + " " + self.last_name
-
-
-class Admin(CommonModel, ClientAwareModel):
-    email = models.EmailField(unique=True)
-
-
-class Tenant(CommonModel, CommonUserModel, ClientAwareModel):
-    """
-    A tenant is legally responsible for the terms of the lease.
-    """
-
-    email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=11, validators=[validate_phone_number])
-    ssn = models.CharField(max_length=11, blank=True)
-    # Relationships:
-    # lease = models.ForeignKey('legal.Lease', related_name='tenants', on_delete=models.DO_NOTHING)
-    # complex = models.ForeignKey('real_estate.Complex', null=True, blank=True, default=None, related_name='tenants')
-    # building = models.ForeignKey('real_estate.Building', null=True, blank=True, default=None, related_name='tenants')
-    # unit = models.ForeignKey('real_estate.Unit', null=True, blank=True, default=None, related_name='tenants')
 
 
 class Occupant(CommonModel, CommonUserModel, ClientAwareModel):

@@ -4,39 +4,22 @@ from rest_framework.response import Response
 from rest_framework import status
 from clients.views import ClientAwareViewSet
 from .serializers import (
-    TenantListSerializer,
-    TenantDetailSerializer,
-    AuthUserSerializer,
-    AdminSerializer,
+    UserReadSerializer,
+    UserWriteSerializer,
 )
-from .models import Tenant, AuthUser, Admin
+from .models import User
 
 
-class AuthUserViewSet(ClientAwareViewSet):
-    queryset = AuthUser.objects.all()
-    serializer_class = AuthUserSerializer
-
-
-class AdminViewSet(ClientAwareViewSet):
-    queryset = Admin.objects.all()
-    serializer_class = AdminSerializer
-
-
-class TenantViewSet(ClientAwareViewSet):
-    queryset = Tenant.objects.all()
-    # serializer_class = TenantListSerializer
-    filter_fields = "__all__"
-    ordering_fields = "__all__"
-    search_fields = ("first_name", "id", "last_name", "phone_number", "ssn")
+class UserViewSet(ClientAwareViewSet):
+    queryset = User.objects.all()
+    filter_fields = ("email",)
+    ordering_fields = ("email",)
+    search_fields = ("email",)
 
     def get_serializer_class(self):
-        if self.action == "list":
-            return TenantListSerializer
-        if self.action == "retrieve":
-            return TenantDetailSerializer
-        if self.action == "update":
-            return TenantDetailSerializer
-        return TenantListSerializer  # Add create/destroy.
+        if self.action == "update" or self.action == "create":
+            return UserWriteSerializer
+        return UserReadSerializer
 
     @action(methods=["post"], detail=False)
     def bulk_create(self, request):
