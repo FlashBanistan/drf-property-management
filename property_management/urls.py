@@ -19,14 +19,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView,
 )
 from rest_framework import routers
 from clients.views import ClientViewSet
 from real_estate.views import ComplexViewSet, BuildingViewSet, UnitViewSet
-from users.views import UserViewSet
+from users.views import UserViewSet, obtain_token_admin, obtain_token_tenant
 from legal.views import LeaseViewSet
 from billing.views import ChargeViewSet, PaymentViewSet, InvoiceViewSet
 from communication.views import AnnouncementViewSet, MaintenanceRequestViewSet
@@ -50,7 +49,8 @@ app_name = "property_management"
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
     url(r"^api/", include(router.urls)),
-    url(r"^api/auth/get_token/", TokenObtainPairView.as_view()),
+    url(r"^api/auth/get_token/admin/", obtain_token_admin),
+    url(r"^api/auth/get_token/tenant/", obtain_token_tenant),
     url(r"^api/auth/refresh_token/", TokenRefreshView.as_view()),
     url(r"^api/auth/verify_token/", TokenVerifyView.as_view()),
     url(r"^api-auth/", include("rest_framework.urls", namespace="rest_framework")),
