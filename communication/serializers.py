@@ -18,6 +18,8 @@ class MaintenanceRequestSerializer(HyperlinkedModelSerializer):
             "description",
             "permission_to_enter",
             "photo",
+            "status",
+            "date_completed",
             "date_created",
             "date_updated",
         )

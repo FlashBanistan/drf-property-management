@@ -10,8 +10,14 @@ class Announcement(CommonModel, ClientAwareModel):
 
 
 class MaintenanceRequest(CommonModel, ClientAwareModel):
+    MAINTENANCE_STATUS_CHOICES = (
+        ("PENDING", "Pending"),
+        ("COMPLETED", "Completed"),
+    )
     description = models.TextField()
     permission_to_enter = models.BooleanField()
     photo = models.FileField(null=True, blank=True, upload_to="maintenance_photos/")
+    status = models.CharField(choices=MAINTENANCE_STATUS_CHOICES, max_length=12)
+    date_completed = models.DateTimeField(null=True, blank=True)
     created_by = models.ForeignKey("users.User", on_delete=models.PROTECT)
 
