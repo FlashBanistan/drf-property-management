@@ -23,4 +23,7 @@ class MaintenanceRequestSerializer(HyperlinkedModelSerializer):
             "date_created",
             "date_updated",
         )
-        read_only_fields = ("id",)
+        read_only_fields = (
+            "id",
+            "status",
+        )

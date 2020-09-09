@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from clients.views import ClientAwareViewSet
 from property_management.utils import user_from_request
 from .serializers import AnnouncementSerializer, MaintenanceRequestSerializer
@@ -36,3 +37,8 @@ class MaintenanceRequestViewSet(ClientAwareViewSet):
         super(MaintenanceRequestViewSet, self).perform_create(
             serializer, *args, **kwargs
         )
+
+    @action(detail=False, methods=["get"])
+    def pending_requests(self, request):
+        pending_requests = MaintenanceRequest.objects.filter(status="PENDING").count()
+        return Response(pending_requests)
